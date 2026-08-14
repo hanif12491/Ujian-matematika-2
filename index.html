@@ -176,7 +176,7 @@
         </div>
     </div>
 
-    <!-- 2B. DASHBOARD GURU / ADMIN (Dengan Sidebar Filter Jenjang & Kontrol Ujian) -->
+    <!-- 2B. DASHBOARD GURU / ADMIN -->
     <div id="view-dashboard-guru" class="hidden-view min-h-screen flex flex-col">
         <nav class="bg-green-600 text-white p-4 shadow-md flex justify-between items-center">
             <h1 class="text-xl font-bold">Dashboard Guru / Admin</h1>
@@ -184,14 +184,32 @@
         </nav>
         
         <div class="container mx-auto p-6 max-w-7xl flex-1 flex flex-col md:flex-row gap-6">
-            <!-- Sidebar Kiri: Filter Jenjang Pendidikan -->
+            <!-- Sidebar Kiri: Filter Jenjang & Kelas -->
             <div class="w-full md:w-1/4 bg-white p-4 rounded-lg shadow h-fit">
-                <h3 class="font-bold text-gray-700 mb-3 pb-2 border-b">📁 Filter Jenjang</h3>
-                <div class="space-y-2">
-                    <button onclick="filterTeacherExams('Semua')" id="filter-btn-semua" class="w-full text-left px-3 py-2 rounded bg-green-50 text-green-700 font-bold transition">🌐 Semua Jenjang</button>
-                    <button onclick="filterTeacherExams('SD / MI')" id="filter-btn-sd" class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 font-semibold text-gray-700 transition">🏫 SD / MI</button>
-                    <button onclick="filterTeacherExams('SMP / MTs')" id="filter-btn-smp" class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 font-semibold text-gray-700 transition">🏫 SMP / MTs</button>
-                    <button onclick="filterTeacherExams('SMA / SMK')" id="filter-btn-sma" class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 font-semibold text-gray-700 transition">🏫 SMA / SMK</button>
+                <h3 class="font-bold text-gray-700 mb-3 pb-2 border-b">📁 Filter Soal & Ujian</h3>
+                <div class="space-y-1 text-sm" id="teacher-sidebar-filter">
+                    <button onclick="filterTeacherExams('Semua', '')" id="filter-all" class="w-full text-left px-3 py-2 rounded bg-green-50 text-green-700 font-bold transition">🌐 Semua Ujian</button>
+                    
+                    <div class="font-bold text-xs text-gray-500 mt-3 uppercase tracking-wider">SD / MI</div>
+                    <button onclick="filterTeacherExams('SD / MI', 'Semua')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 font-medium">Semua Kelas SD</button>
+                    <button onclick="filterTeacherExams('SD / MI', '1')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 1</button>
+                    <button onclick="filterTeacherExams('SD / MI', '2')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 2</button>
+                    <button onclick="filterTeacherExams('SD / MI', '3')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 3</button>
+                    <button onclick="filterTeacherExams('SD / MI', '4')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 4</button>
+                    <button onclick="filterTeacherExams('SD / MI', '5')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 5</button>
+                    <button onclick="filterTeacherExams('SD / MI', '6')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 6</button>
+
+                    <div class="font-bold text-xs text-gray-500 mt-3 uppercase tracking-wider">SMP / MTs</div>
+                    <button onclick="filterTeacherExams('SMP / MTs', 'Semua')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 font-medium">Semua Kelas SMP</button>
+                    <button onclick="filterTeacherExams('SMP / MTs', '7')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 7</button>
+                    <button onclick="filterTeacherExams('SMP / MTs', '8')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 8</button>
+                    <button onclick="filterTeacherExams('SMP / MTs', '9')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 9</button>
+
+                    <div class="font-bold text-xs text-gray-500 mt-3 uppercase tracking-wider">SMA / SMK</div>
+                    <button onclick="filterTeacherExams('SMA / SMK', 'Semua')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 font-medium">Semua Kelas SMA</button>
+                    <button onclick="filterTeacherExams('SMA / SMK', '10')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 10</button>
+                    <button onclick="filterTeacherExams('SMA / SMK', '11')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 11</button>
+                    <button onclick="filterTeacherExams('SMA / SMK', '12')" class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-100 text-gray-700 text-xs pl-5">Kelas 12</button>
                 </div>
             </div>
 
@@ -249,7 +267,7 @@
         </div>
     </div>
 
-    <!-- MODAL KELOLA SOAL UJIAN (Dengan Upload Gambar, Tabel Interaktif Jendela Baru) -->
+    <!-- MODAL KELOLA SOAL UJIAN -->
     <div id="modal-manage-soal" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 overflow-y-auto">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-3xl w-full my-8 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -264,6 +282,15 @@
                     <input type="hidden" id="edit-question-index" value="-1">
                     
                     <div class="mb-3">
+                        <label class="block text-gray-700 font-semibold text-sm mb-1">Tipe Soal</label>
+                        <select id="question-type-select" onchange="onQuestionTypeChange()" class="w-full px-3 py-2 border rounded-lg text-sm bg-white font-semibold">
+                            <option value="pg">Pilihan Ganda</option>
+                            <option value="bs">Benar - Salah</option>
+                            <option value="mencocokkan">Mencocokkan</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="block text-gray-700 font-semibold text-sm mb-1">Pertanyaan / Soal</label>
                         <div class="flex flex-wrap gap-1 mb-2 bg-white p-2 border rounded text-xs items-center">
                             <span class="text-gray-500 font-bold mr-1">Simbol:</span>
@@ -275,55 +302,26 @@
                             <button type="button" onclick="insertMathSymbol('×')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">×</button>
                             <button type="button" onclick="insertMathSymbol(' ⁄ ')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">a/b</button>
                             <span class="text-gray-300 mx-1">|</span>
-                            <button type="button" onclick="openTableBuilderModal()" class="px-2 py-1 bg-blue-50 text-blue-700 font-semibold hover:bg-blue-100 rounded">📊 Buat Tabel (Jendela Baru)</button>
+                            <button type="button" onclick="openTableBuilderModal()" class="px-2 py-1 bg-blue-50 text-blue-700 font-semibold hover:bg-blue-100 rounded">📊 Buat / Edit Tabel</button>
                         </div>
                         <textarea id="math-question-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500 font-mono" placeholder="Ketik soal..." required></textarea>
                     </div>
 
-                    <!-- Upload Gambar Ukuran Asli -->
+                    <!-- Upload Gambar Ukuran Asli Soal -->
                     <div class="mb-3">
-                        <label class="block text-gray-700 font-semibold text-sm mb-1">Upload Gambar Pendukung (Ukuran Asli)</label>
+                        <label class="block text-gray-700 font-semibold text-sm mb-1">Upload Gambar Soal (Ukuran Asli)</label>
                         <input type="file" id="question-img-file" accept="image/*" class="w-full px-3 py-1.5 border rounded-lg text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                         <div id="preview-container" class="mt-2 hidden">
-                            <span class="text-xs text-gray-500">Preview Gambar (Ukuran Asli):</span>
+                            <span class="text-xs text-gray-500">Preview Gambar:</span>
                             <div class="mt-1 border rounded p-2 bg-white overflow-auto max-h-40">
                                 <img id="img-preview" src="" alt="Preview" class="max-w-none">
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                        <div>
-                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan A</label>
-                            <input type="text" id="opt-a" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi A..." required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan B</label>
-                            <input type="text" id="opt-b" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi B..." required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan C</label>
-                            <input type="text" id="opt-c" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi C..." required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan D</label>
-                            <input type="text" id="opt-d" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi D..." required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan E</label>
-                            <input type="text" id="opt-e" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi E..." required>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold text-sm mb-1">Kunci Jawaban Benar</label>
-                        <select id="correct-answer" class="w-full px-3 py-2 border rounded text-sm bg-white font-bold text-green-700" required>
-                            <option value="0">A</option>
-                            <option value="1">B</option>
-                            <option value="2">C</option>
-                            <option value="3">D</option>
-                            <option value="4">E</option>
-                        </select>
+                    <!-- Container Opsi Dinamis Berdasarkan Tipe & Jumlah Opsi (Req 1, 5, 6) -->
+                    <div id="dynamic-options-wrapper" class="space-y-3 mb-4">
+                        <!-- Rendered dynamically by JS -->
                     </div>
 
                     <div class="flex gap-2">
@@ -339,10 +337,10 @@
         </div>
     </div>
 
-    <!-- MODAL JENDELA BARU: BUILDER TABEL 2x2 INTERAKTIF -->
+    <!-- MODAL BUILDER TABEL 2x2 INTERAKTIF (Req 3, 4) -->
     <div id="modal-table-builder" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[60] p-4">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-xl w-full">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">📊 Buat / Edit Tabel 2×2 (Interaktif)</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">📊 Buat / Edit Tabel Interaktif</h3>
             <p class="text-xs text-gray-600 mb-4">Tambah baris/kolom atau ketik langsung di dalam sel tabel di bawah ini.</p>
             
             <div class="flex gap-2 mb-3">
@@ -352,10 +350,8 @@
                 <button type="button" onclick="tableBuilderDelCol()" class="px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded hover:bg-red-700">- Hapus Kolom</button>
             </div>
 
-            <!-- Area Tabel Interaktif -->
             <div class="border rounded p-3 bg-gray-50 overflow-x-auto max-h-60 mb-4">
                 <table id="interactive-build-table" class="custom-table bg-white">
-                    <!-- Default 2x2 -->
                     <tr>
                         <td><input type="text" value="Header 1" class="w-full border-0 bg-transparent font-bold focus:outline-none"></td>
                         <td><input type="text" value="Header 2" class="w-full border-0 bg-transparent font-bold focus:outline-none"></td>
@@ -374,16 +370,19 @@
         </div>
     </div>
 
-    <!-- MODAL LIHAT HASIL UJIAN (Untuk Guru) -->
+    <!-- MODAL LIHAT HASIL UJIAN (Dengan Tombol Export Excel - Req 2) -->
     <div id="modal-exam-results" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h3 id="result-modal-title" class="text-xl font-bold text-gray-800">Rekap Hasil Ujian Siswa</h3>
                 <button onclick="closeResultModal()" class="text-gray-500 hover:text-red-600 font-bold text-xl">✕</button>
             </div>
-            <div id="result-modal-content">
-                <!-- Tabel Hasil Ujian -->
+            <div class="mb-4 flex justify-end">
+                <button id="btn-export-excel" onclick="downloadExcelResults()" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-emerald-700 transition flex items-center gap-2">
+                    📥 Download Microsoft Excel (.xls)
+                </button>
             </div>
+            <div id="result-modal-content"></div>
         </div>
     </div>
 
@@ -431,7 +430,7 @@
                     </label>
                 </div>
                 <div class="text-lg mb-4 font-medium text-gray-800 font-mono" id="question-text"></div>
-                <!-- Render Gambar Ukuran Asli -->
+                <!-- Render Gambar Soal Ukuran Asli -->
                 <div id="question-img-render" class="mb-6 hidden overflow-auto max-w-full">
                     <img id="render-img-src" src="" alt="Gambar Soal">
                 </div>
@@ -523,13 +522,11 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- 1. SIMULASI DATABASE ---
         let usersDB = [
             { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123" },
             { nama: "Ahmad Budi", nis: "1001", role: "siswa", jenjang: "SMA / SMK", kelas: "11", password: "password" }
         ];
 
-        // Menyimpan riwayat hasil ujian siswa untuk fitur "Lihat Hasil Ujian" guru
         let examResultsDB = [
             { examId: 1, nis: "1001", nama: "Ahmad Budi", nilai: 80 }
         ];
@@ -551,10 +548,22 @@
                 kelas: "11", 
                 duration: "90 Menit", 
                 token: "MTH90",
-                isStarted: true, // Status Mulai / Berhenti Ujian
+                isStarted: true,
                 questions: [
-                    { id: 1, text: "Nilai dari 2x + 3 = 11 adalah ....", options: ["A. 2", "B. 3", "C. 4", "D. 5", "E. 6"], correct: 2, image: null },
-                    { id: 2, text: "Tentukan hasil data pada tabel berikut:", options: ["A. 80", "B. 81", "C. 82", "D. 83", "E. 84"], correct: 1, image: null }
+                    { 
+                        id: 1, 
+                        type: "pg",
+                        text: "Nilai dari 2x + 3 = 11 adalah ....", 
+                        options: [
+                            { text: "2", image: null }, 
+                            { text: "3", image: null }, 
+                            { text: "4", image: null }, 
+                            { text: "5", image: null }, 
+                            { text: "6", image: null }
+                        ], 
+                        correct: 2, 
+                        image: null 
+                    }
                 ] 
             }
         ];
@@ -563,6 +572,7 @@
         let activeExam = null;
         let activeManagingExamId = null;
         let teacherFilterJenjang = "Semua";
+        let teacherFilterKelas = "";
 
         let currentQuestionIndex = 0;
         let studentAnswers = {}; 
@@ -570,8 +580,10 @@
         let timerInterval;
         let timeLeft = 90 * 60;
         let tempQuestionImage = null;
+        let tempOptionImages = {}; // Menyimpan base64 gambar per opsi
+        let activeResultExamId = null;
 
-        // --- MANAJEMEN KELAS DINAMIS ---
+        // --- MANAJEMEN KELAS DINAMIS (Req 1) ---
         function populateClassOptions(jenjangSelectId, kelasSelectId, selectedValue = '') {
             const jenjang = document.getElementById(jenjangSelectId).value;
             const kelasSelect = document.getElementById(kelasSelectId);
@@ -589,6 +601,19 @@
                 if (c === selectedValue) opt.selected = true;
                 kelasSelect.appendChild(opt);
             });
+        }
+
+        // --- PENENTUAN JUMLAH OPSI BERDASARKAN JENJANG & KELAS (Req 1) ---
+        function getOptionCountForExam(exam) {
+            if (!exam) return 5;
+            if (exam.jenjang === "SD / MI") {
+                if (["1", "2", "3"].includes(exam.kelas)) return 3; // 3 opsi (A, B, C)
+                return 4; // Kelas 4-6 = 4 opsi (A, B, C, D)
+            } else if (exam.jenjang === "SMP / MTs") {
+                return 4; // SMP/MTs = 4 opsi (A, B, C, D)
+            } else {
+                return 5; // SMA/SMK = 5 opsi (A, B, C, D, E)
+            }
         }
 
         function switchView(viewId) {
@@ -703,7 +728,6 @@
                         return;
                     }
 
-                    // Cek apakah ujian sudah dimulai oleh guru
                     if (!validExam.isStarted) {
                         alert("Ujian belum dimulai oleh Guru/Admin. Silakan tunggu hingga sesi ujian dibuka!");
                         return;
@@ -768,22 +792,15 @@
             });
         }
 
-        // --- DASHBOARD GURU & FITUR PENGELOMPOKAN SIDEBAR ---
+        // --- DASHBOARD GURU & SIDEBAR FILTER (Req 7) ---
         function loadTeacherDashboard() {
             document.getElementById('guru-nama').innerText = currentUser.nama;
             renderTeacherExamList();
         }
 
-        function filterTeacherExams(jenjang) {
+        function filterTeacherExams(jenjang, kelas) {
             teacherFilterJenjang = jenjang;
-            document.querySelectorAll('#view-dashboard-guru .w-full.md\\:w-1\\:4 button').forEach(btn => {
-                btn.className = "w-full text-left px-3 py-2 rounded hover:bg-gray-100 font-semibold text-gray-700 transition";
-            });
-            if (jenjang === "Semua") document.getElementById('filter-btn-semua').className = "w-full text-left px-3 py-2 rounded bg-green-50 text-green-700 font-bold transition";
-            else if (jenjang === "SD / MI") document.getElementById('filter-btn-sd').className = "w-full text-left px-3 py-2 rounded bg-green-50 text-green-700 font-bold transition";
-            else if (jenjang === "SMP / MTs") document.getElementById('filter-btn-smp').className = "w-full text-left px-3 py-2 rounded bg-green-50 text-green-700 font-bold transition";
-            else if (jenjang === "SMA / SMK") document.getElementById('filter-btn-sma').className = "w-full text-left px-3 py-2 rounded bg-green-50 text-green-700 font-bold transition";
-
+            teacherFilterKelas = kelas;
             renderTeacherExamList();
         }
 
@@ -802,7 +819,7 @@
                 kelas: kelas,
                 duration: duration,
                 token: autoToken,
-                isStarted: false, // Default berhenti sebelum di-klik Mulai oleh guru
+                isStarted: false,
                 questions: []
             };
 
@@ -817,12 +834,14 @@
             const listContainer = document.getElementById('guru-exam-list');
             listContainer.innerHTML = '';
 
-            const filteredExams = teacherFilterJenjang === "Semua" 
-                ? examsDB 
-                : examsDB.filter(ex => ex.jenjang === teacherFilterJenjang);
+            const filteredExams = examsDB.filter(ex => {
+                if (teacherFilterJenjang !== "Semua" && ex.jenjang !== teacherFilterJenjang) return false;
+                if (teacherFilterKelas && teacherFilterKelas !== "Semua" && ex.kelas !== teacherFilterKelas) return false;
+                return true;
+            });
 
             if (filteredExams.length === 0) {
-                listContainer.innerHTML = `<div class="bg-white p-6 rounded-lg shadow text-center text-gray-500">Belum ada ujian untuk filter jenjang ini.</div>`;
+                listContainer.innerHTML = `<div class="bg-white p-6 rounded-lg shadow text-center text-gray-500">Belum ada ujian untuk filter jenjang/kelas ini.</div>`;
                 return;
             }
 
@@ -836,7 +855,7 @@
                         <div>
                             <h4 class="font-bold text-gray-800 text-lg">${exam.title} <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-mono ml-2">Token: ${exam.token}</span></h4>
                             <p class="text-sm text-gray-600">Jenjang: <span class="font-semibold">${exam.jenjang}</span> | Kelas: <span class="font-semibold">Kelas ${exam.kelas}</span> | Soal: <span class="font-bold text-green-600">${exam.questions.length}</span> | Durasi: ${exam.duration}</p>
-                            <p class="text-xs font-bold mt-1 ${exam.isStarted ? 'text-green-600' : 'text-red-600'}">Status: ${exam.isStarted ? 'SEDANG BERJALAN (Siswa bisa akses)' : 'BERHENTI (Siswa terkunci)'}</p>
+                            <p class="text-xs font-bold mt-1 ${exam.isStarted ? 'text-green-600' : 'text-red-600'}">Status: ${exam.isStarted ? 'SEDANG BERJALAN' : 'BERHENTI'}</p>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             ${startStopBtn}
@@ -859,8 +878,9 @@
             }
         }
 
-        // --- FITUR LIHAT HASIL UJIAN (Username, Nama, Nilai) ---
+        // --- LIHAT HASIL & DOWNLOAD EXCEL (Req 2) ---
         function openExamResults(examId) {
+            activeResultExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
             if (!exam) return;
 
@@ -872,7 +892,7 @@
                 content.innerHTML = `<p class="text-center text-gray-500 py-6">Belum ada siswa yang menyelesaikan ujian ini.</p>`;
             } else {
                 let html = `
-                    <table class="custom-table">
+                    <table class="custom-table" id="table-results-export">
                         <tr>
                             <th>Username / NIS</th>
                             <th>Nama Siswa</th>
@@ -899,6 +919,30 @@
             document.getElementById('modal-exam-results').classList.add('hidden-view');
         }
 
+        function downloadExcelResults() {
+            const exam = examsDB.find(ex => ex.id === activeResultExamId);
+            const results = examResultsDB.filter(r => r.examId === activeResultExamId);
+            if (results.length === 0) {
+                alert("Tidak ada data hasil ujian untuk di-download.");
+                return;
+            }
+
+            let html = `<table><tr><th>Username / NIS</th><th>Nama Siswa</th><th>Nilai Akhir</th></tr>`;
+            results.forEach(res => {
+                html += `<tr><td>${res.nis}</td><td>${res.nama}</td><td>${res.nilai}</td></tr>`;
+            });
+            html += `</table>`;
+
+            const blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Hasil_Ujian_${exam.title.replace(/\s+/g, '_')}.xls`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
         function deleteExam(examId) {
             if (confirm("Apakah Anda yakin ingin menghapus ujian ini?")) {
                 examsDB = examsDB.filter(ex => ex.id !== examId);
@@ -906,7 +950,7 @@
             }
         }
 
-        // --- KELOLA SOAL (Upload Gambar Ukuran Asli, Tabel Jendela Baru) ---
+        // --- KELOLA SOAL (Tipe Soal, Opsi, Upload Gambar Option - Req 1, 5, 6) ---
         function openManageSoalModal(examId) {
             activeManagingExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -914,6 +958,7 @@
 
             document.getElementById('manage-exam-title').innerText = `Kelola Soal: ${exam.title} (${exam.jenjang} - Kelas ${exam.kelas})`;
             resetQuestionForm();
+            renderDynamicOptionInputs();
             renderReviewQuestions();
             document.getElementById('modal-manage-soal').classList.remove('hidden-view');
         }
@@ -921,6 +966,102 @@
         function closeManageSoalModal() {
             document.getElementById('modal-manage-soal').classList.add('hidden-view');
             renderTeacherExamList();
+        }
+
+        function onQuestionTypeChange() {
+            renderDynamicOptionInputs();
+        }
+
+        function renderDynamicOptionInputs(existingOptions = [], existingCorrect = 0) {
+            const exam = examsDB.find(ex => ex.id === activeManagingExamId);
+            const type = document.getElementById('question-type-select').value;
+            const wrapper = document.getElementById('dynamic-options-wrapper');
+            wrapper.innerHTML = '';
+            tempOptionImages = {};
+
+            if (type === 'pg') {
+                const count = getOptionCountForExam(exam); // 3, 4, or 5 based on level/class
+                const labels = ['A', 'B', 'C', 'D', 'E'];
+                
+                let html = `<label class="block text-gray-700 font-semibold text-sm mb-1">Pilihan Ganda (${count} Opsi)</label>`;
+                for (let i = 0; i < count; i++) {
+                    const optVal = existingOptions[i] ? (typeof existingOptions[i] === 'object' ? existingOptions[i].text : existingOptions[i]) : '';
+                    const optImg = existingOptions[i] && existingOptions[i].image ? existingOptions[i].image : null;
+                    if (optImg) tempOptionImages[i] = optImg;
+
+                    html += `
+                        <div class="border p-3 rounded bg-white space-y-2 mb-2">
+                            <div class="flex gap-2 items-center">
+                                <span class="font-bold text-sm w-6">${labels[i]}.</span>
+                                <input type="text" id="opt-text-${i}" value="${optVal}" class="flex-1 px-3 py-1.5 border rounded text-sm font-mono" placeholder="Teks Pilihan ${labels[i]}..." required>
+                            </div>
+                            <div class="flex items-center gap-2 pl-8">
+                                <label class="text-xs text-gray-600">Upload Gambar Opsi:</label>
+                                <input type="file" id="opt-file-${i}" accept="image/*" onchange="handleOptionImageUpload(event, ${i})" class="text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700">
+                                <div id="opt-preview-container-${i}" class="${optImg ? '' : 'hidden'} flex items-center gap-2">
+                                    <img id="opt-img-preview-${i}" src="${optImg || ''}" class="h-12 border rounded object-contain">
+                                    <button type="button" onclick="removeOptionImage(${i})" class="text-red-500 text-xs font-bold">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="mt-3">
+                        <label class="block text-gray-700 font-semibold text-sm mb-1">Kunci Jawaban Benar</label>
+                        <select id="correct-answer" class="w-full px-3 py-2 border rounded text-sm bg-white font-bold text-green-700" required>
+                `;
+                for (let i = 0; i < count; i++) {
+                    html += `<option value="${i}" ${existingCorrect === i ? 'selected' : ''}>${labels[i]}</option>`;
+                }
+                html += `</select></div>`;
+                wrapper.innerHTML = html;
+
+            } else if (type === 'bs') {
+                const isTrue = existingCorrect === 0;
+                wrapper.innerHTML = `
+                    <label class="block text-gray-700 font-semibold text-sm mb-1">Soal Benar - Salah</label>
+                    <p class="text-xs text-gray-500 mb-2">Siswa akan memilih apakah pernyataan tersebut Benar atau Salah.</p>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 text-xs font-semibold mb-1">Kunci Jawaban Benar</label>
+                        <select id="correct-answer" class="w-full px-3 py-2 border rounded text-sm bg-white font-bold text-green-700" required>
+                            <option value="0" ${isTrue ? 'selected' : ''}>Benar</option>
+                            <option value="1" ${!isTrue ? 'selected' : ''}>Salah</option>
+                        </select>
+                    </div>
+                `;
+            } else if (type === 'mencocokkan') {
+                const pairText = existingOptions[0] && typeof existingOptions[0] === 'object' ? existingOptions[0].text : (existingOptions[0] || '');
+                wrapper.innerHTML = `
+                    <label class="block text-gray-700 font-semibold text-sm mb-1">Soal Mencocokkan</label>
+                    <div class="mb-3">
+                        <label class="block text-gray-700 text-xs font-semibold mb-1">Pasangan / Kunci Jawaban Mencocokkan</label>
+                        <input type="text" id="matching-pair-input" value="${pairText}" class="w-full px-3 py-2 border rounded text-sm font-mono" placeholder="Contoh: A-1, B-3, C-2..." required>
+                        <input type="hidden" id="correct-answer" value="0">
+                    </div>
+                `;
+            }
+        }
+
+        function handleOptionImageUpload(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempOptionImages[index] = e.target.result;
+                    document.getElementById(`opt-img-preview-${index}`).src = e.target.result;
+                    document.getElementById(`opt-preview-container-${index}`).classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeOptionImage(index) {
+            delete tempOptionImages[index];
+            document.getElementById(`opt-file-${index}`).value = '';
+            document.getElementById(`opt-img-preview-${index}`).src = '';
+            document.getElementById(`opt-preview-container-${index}`).classList.add('hidden');
         }
 
         // Upload Gambar Ukuran Asli
@@ -946,8 +1087,41 @@
             textarea.selectionStart = textarea.selectionEnd = start + symbol.length;
         }
 
-        // --- JENDELA BARU: BUILDER TABEL 2x2 INTERAKTIF ---
-        function openTableBuilderModal() {
+        // --- BUILDER TABEL 2x2 INTERAKTIF (Req 3, 4) ---
+        let editingTableObject = null;
+
+        function openTableBuilderModal(existingTableHTML = null) {
+            const table = document.getElementById('interactive-build-table');
+            if (existingTableHTML) {
+                // Load existing table HTML into builder
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = existingTableHTML;
+                const srcTable = tempDiv.querySelector('table');
+                if (srcTable) {
+                    table.innerHTML = srcTable.innerHTML;
+                    // Re-bind input formatting in cells if needed
+                    for (let r = 0; r < table.rows.length; r++) {
+                        for (let c = 0; c < table.rows[r].cells.length; c++) {
+                            const cell = table.rows[r].cells[c];
+                            const textVal = cell.innerText.trim();
+                            const isHeader = cell.tagName === 'TH' || r === 0;
+                            cell.innerHTML = `<input type="text" value="${textVal}" class="w-full border-0 bg-transparent ${isHeader ? 'font-bold' : ''} focus:outline-none">`;
+                        }
+                    }
+                }
+            } else {
+                // Default 2x2
+                table.innerHTML = `
+                    <tr>
+                        <td><input type="text" value="Header 1" class="w-full border-0 bg-transparent font-bold focus:outline-none"></td>
+                        <td><input type="text" value="Header 2" class="w-full border-0 bg-transparent font-bold focus:outline-none"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" value="Data 1" class="w-full border-0 bg-transparent focus:outline-none"></td>
+                        <td><input type="text" value="Data 2" class="w-full border-0 bg-transparent focus:outline-none"></td>
+                    </tr>
+                `;
+            }
             document.getElementById('modal-table-builder').classList.remove('hidden-view');
         }
 
@@ -975,11 +1149,8 @@
 
         function tableBuilderDelRow() {
             const table = document.getElementById('interactive-build-table');
-            if (table.rows.length > 1) {
-                table.deleteRow(table.rows.length - 1);
-            } else {
-                alert("Minimal harus menyisakan 1 baris!");
-            }
+            if (table.rows.length > 1) table.deleteRow(table.rows.length - 1);
+            else alert("Minimal harus menyisakan 1 baris!");
         }
 
         function tableBuilderDelCol() {
@@ -988,29 +1159,28 @@
                 for (let i = 0; i < table.rows.length; i++) {
                     table.rows[i].deleteCell(table.rows[i].cells.length - 1);
                 }
-            } else {
-                alert("Minimal harus menyisakan 1 kolom!");
-            }
+            } else alert("Minimal harus menyisakan 1 kolom!");
         }
 
-        // Mengambil HTML dari tabel interaktif dan menyisipkannya ke textarea soal
         function insertTableToQuestion() {
             const table = document.getElementById('interactive-build-table');
-            // Clone table untuk membersihkan input element agar menjadi teks statis HTML
             let cloneTable = table.cloneNode(true);
             const inputs = cloneTable.getElementsByTagName('input');
             for (let i = inputs.length - 1; i >= 0; i--) {
                 const val = inputs[i].value;
-                const parent = inputs[i].parentNode;
-                parent.innerHTML = val;
+                inputs[i].parentNode.innerHTML = val;
             }
 
-            // Tambahkan class custom-table
             cloneTable.className = "custom-table";
             const tableHtml = cloneTable.outerHTML;
 
             const textarea = document.getElementById('math-question-text');
-            textarea.value += "\n" + tableHtml + "\n";
+            // Jika sudah ada tabel sebelumnya dalam teks, ganti atau append
+            if (textarea.value.includes("<table")) {
+                textarea.value = textarea.value.replace(/<table[\s\S]*?<\/table>/, tableHtml);
+            } else {
+                textarea.value += "\n" + tableHtml + "\n";
+            }
             closeTableBuilderModal();
             textarea.focus();
         }
@@ -1021,13 +1191,28 @@
             if (!exam) return;
 
             const editIndex = parseInt(document.getElementById('edit-question-index').value);
+            const type = document.getElementById('question-type-select').value;
             const questionText = document.getElementById('math-question-text').value.trim();
-            const optA = document.getElementById('opt-a').value.trim();
-            const optB = document.getElementById('opt-b').value.trim();
-            const optC = document.getElementById('opt-c').value.trim();
-            const optD = document.getElementById('opt-d').value.trim();
-            const optE = document.getElementById('opt-e').value.trim();
             const correctIndex = parseInt(document.getElementById('correct-answer').value);
+
+            let optionsData = [];
+            if (type === 'pg') {
+                const count = getOptionCountForExam(exam);
+                const labels = ['A', 'B', 'C', 'D', 'E'];
+                for (let i = 0; i < count; i++) {
+                    const txt = document.getElementById(`opt-text-${i}`).value.trim();
+                    const img = tempOptionImages[i] || null;
+                    optionsData.push({ text: `${labels[i]}. ${txt}`, image: img });
+                }
+            } else if (type === 'bs') {
+                optionsData = [
+                    { text: "Benar", image: null },
+                    { text: "Salah", image: null }
+                ];
+            } else if (type === 'mencocokkan') {
+                const pairVal = document.getElementById('matching-pair-input').value.trim();
+                optionsData = [{ text: pairVal, image: null }];
+            }
 
             let imageToSave = tempQuestionImage;
             if (editIndex !== -1 && !imageToSave) {
@@ -1036,8 +1221,9 @@
 
             const questionData = {
                 id: editIndex === -1 ? Date.now() : exam.questions[editIndex].id,
+                type: type,
                 text: questionText,
-                options: [`A. ${optA}`, `B. ${optB}`, `C. ${optC}`, `D. ${optD}`, `E. ${optE}`],
+                options: optionsData,
                 correct: correctIndex,
                 image: imageToSave
             };
@@ -1052,16 +1238,12 @@
             }
 
             document.getElementById('math-question-text').value = '';
-            document.getElementById('opt-a').value = '';
-            document.getElementById('opt-b').value = '';
-            document.getElementById('opt-c').value = '';
-            document.getElementById('opt-d').value = '';
-            document.getElementById('opt-e').value = '';
-            document.getElementById('correct-answer').value = '0';
             document.getElementById('question-img-file').value = '';
             document.getElementById('preview-container').classList.add('hidden');
             tempQuestionImage = null;
+            tempOptionImages = {};
 
+            renderDynamicOptionInputs();
             renderReviewQuestions();
         }
 
@@ -1082,7 +1264,10 @@
                 const card = `
                     <div class="bg-white p-4 rounded border shadow-sm flex flex-col gap-2">
                         <div class="flex justify-between items-start">
-                            <span class="font-bold text-sm text-green-700">Soal No. ${idx + 1}</span>
+                            <div>
+                                <span class="font-bold text-sm text-green-700">Soal No. ${idx + 1}</span>
+                                <span class="ml-2 text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded uppercase font-semibold">${q.type}</span>
+                            </div>
                             <div class="flex gap-2">
                                 <button onclick="editQuestion(${idx})" class="bg-yellow-500 text-white px-2.5 py-1 rounded text-xs font-bold hover:bg-yellow-600 transition">✏️ Edit</button>
                                 <button onclick="deleteQuestion(${idx})" class="bg-red-500 text-white px-2.5 py-1 rounded text-xs font-bold hover:bg-red-600 transition">🗑️ Hapus</button>
@@ -1091,7 +1276,13 @@
                         <div class="font-mono text-sm text-gray-800">${q.text}</div>
                         ${q.image ? `<div class="overflow-auto max-w-full mt-1 border rounded p-1"><img src="${q.image}" class="max-w-none"></div>` : ''}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs bg-gray-50 p-2 rounded font-mono">
-                            ${q.options.map((opt, oIdx) => `<div class="${oIdx === q.correct ? 'font-bold text-green-600 bg-green-50 p-1 rounded' : 'text-gray-600 p-1'}">${opt} ${oIdx === q.correct ? '✓ (Kunci)' : ''}</div>`).join('')}
+                            ${q.options.map((opt, oIdx) => `
+                                <div class="${oIdx === q.correct ? 'font-bold text-green-600 bg-green-50 p-1 rounded' : 'text-gray-600 p-1'} flex items-center gap-2">
+                                    <span>${opt.text}</span>
+                                    ${opt.image ? `<img src="${opt.image}" class="h-8 border rounded object-contain">` : ''}
+                                    ${oIdx === q.correct ? '✓ (Kunci)' : ''}
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `;
@@ -1105,13 +1296,22 @@
             const q = exam.questions[index];
 
             document.getElementById('edit-question-index').value = index;
+            document.getElementById('question-type-select').value = q.type || 'pg';
             document.getElementById('math-question-text').value = q.text;
-            document.getElementById('opt-a').value = q.options[0].replace(/^[A-E]\.\s*/, '');
-            document.getElementById('opt-b').value = q.options[1].replace(/^[A-E]\.\s*/, '');
-            document.getElementById('opt-c').value = q.options[2].replace(/^[A-E]\.\s*/, '');
-            document.getElementById('opt-d').value = q.options[3].replace(/^[A-E]\.\s*/, '');
-            document.getElementById('opt-e').value = q.options[4].replace(/^[A-E]\.\s*/, '');
-            document.getElementById('correct-answer').value = q.correct;
+            
+            renderDynamicOptionInputs(q.options, q.correct);
+
+            // Populate option images if any
+            q.options.forEach((opt, i) => {
+                if (opt.image) {
+                    tempOptionImages[i] = opt.image;
+                    const prev = document.getElementById(`opt-img-preview-${i}`);
+                    if (prev) {
+                        prev.src = opt.image;
+                        document.getElementById(`opt-preview-container-${i}`).classList.remove('hidden');
+                    }
+                }
+            });
 
             if (q.image) {
                 document.getElementById('img-preview').src = q.image;
@@ -1141,16 +1341,13 @@
 
         function resetQuestionForm() {
             document.getElementById('edit-question-index').value = "-1";
+            document.getElementById('question-type-select').value = "pg";
             document.getElementById('math-question-text').value = '';
-            document.getElementById('opt-a').value = '';
-            document.getElementById('opt-b').value = '';
-            document.getElementById('opt-c').value = '';
-            document.getElementById('opt-d').value = '';
-            document.getElementById('opt-e').value = '';
-            document.getElementById('correct-answer').value = '0';
             document.getElementById('question-img-file').value = '';
             document.getElementById('preview-container').classList.add('hidden');
             tempQuestionImage = null;
+            tempOptionImages = {};
+            renderDynamicOptionInputs();
             document.getElementById('form-soal-title').innerText = "➕ Tambah Soal Baru";
             document.getElementById('btn-save-question').innerText = "Simpan Soal";
             document.getElementById('btn-cancel-edit').classList.add('hidden');
@@ -1226,7 +1423,10 @@
                             <div class="w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${isChecked ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}">
                                 ${isChecked ? '<div class="w-2 h-2 bg-white rounded-full"></div>' : ''}
                             </div>
-                            <span class="text-gray-800 font-medium font-mono">${opt}</span>
+                            <div class="flex items-center gap-3 flex-1">
+                                <span class="text-gray-800 font-medium font-mono">${opt.text}</span>
+                                ${opt.image ? `<img src="${opt.image}" class="h-16 border rounded object-contain">` : ''}
+                            </div>
                         </div>
                     </label>
                 `;
@@ -1320,7 +1520,6 @@
             const score = Math.round((correctCount / activeExam.questions.length) * 100);
             const answered = Object.keys(studentAnswers).length;
 
-            // Simpan hasil ke rekap examResultsDB
             examResultsDB.push({
                 examId: activeExam.id,
                 nis: currentUser.nis,
