@@ -7,14 +7,9 @@
     <!-- Menggunakan Tailwind CSS untuk styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Sembunyikan elemen yang tidak aktif */
         .hidden-view { display: none !important; }
-        
-        /* Custom radio button */
         .option-label { cursor: pointer; }
         .option-radio:checked + div { background-color: #EFF6FF; border-color: #3B82F6; }
-        
-        /* Status Navigasi Soal */
         .nav-btn { transition: all 0.2s; }
         .nav-unanswered { background-color: #F3F4F6; color: #374151; border: 1px solid #D1D5DB; }
         .nav-answered { background-color: #10B981; color: white; border: 1px solid #059669; }
@@ -24,23 +19,99 @@
 </head>
 <body class="bg-gray-100 font-sans antialiased text-gray-800">
 
-    <!-- 1. HALAMAN LOGIN -->
+    <!-- 1A. HALAMAN LOGIN -->
     <div id="view-login" class="min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-            <div class="text-center mb-8">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md my-8">
+            <div class="text-center mb-6">
                 <h1 class="text-2xl font-bold text-blue-600">CBT SEKOLAH</h1>
-                <p class="text-gray-500">Silakan login untuk memulai ujian</p>
+                <p class="text-gray-500">Silakan login untuk masuk ke sistem</p>
             </div>
-            <form onsubmit="handleLogin(event)">
+
+            <!-- Tab Navigasi Role -->
+            <div class="flex mb-6 border-b text-center">
+                <button onclick="switchLoginTab('siswa')" id="tab-siswa" class="w-1/2 py-2 font-bold text-blue-600 border-b-2 border-blue-600 transition">Siswa</button>
+                <button onclick="switchLoginTab('guru')" id="tab-guru" class="w-1/2 py-2 font-bold text-gray-400 hover:text-green-600 transition">Guru / Admin</button>
+            </div>
+
+            <!-- Form Login Siswa -->
+            <form id="form-login-siswa" onsubmit="handleLogin(event, 'siswa')">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Username / NIS</label>
-                    <input type="text" id="nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS..." required value="12345">
+                    <input type="text" id="login-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS..." required value="12345">
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 font-semibold mb-2">Password</label>
-                    <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required value="password">
+                    <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required value="password">
                 </div>
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">LOGIN UJIAN</button>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">LOGIN SISWA</button>
+                
+                <div class="mt-4 text-center text-sm">
+                    <span class="text-gray-600">Belum punya akun?</span>
+                    <button type="button" onclick="switchView('view-register')" class="text-blue-600 font-bold hover:underline ml-1">Buat Akun Baru</button>
+                </div>
+            </form>
+
+            <!-- Form Login Guru -->
+            <form id="form-login-guru" class="hidden" onsubmit="handleLogin(event, 'guru')">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Username / NIP</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan NIP Guru..." required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Password</label>
+                    <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan Password..." required>
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition">LOGIN GURU</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 1B. HALAMAN REGISTER / BUAT AKUN SISWA -->
+    <div id="view-register" class="hidden-view min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border-t-8 border-blue-600 my-8">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">BUAT AKUN SISWA</h2>
+                <p class="text-gray-500">Lengkapi data di bawah ini</p>
+            </div>
+            
+            <form onsubmit="handleRegister(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Nama Lengkap Siswa</label>
+                    <input type="text" id="reg-nama" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: Ahmad Budi..." required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Username / NIS</label>
+                    <input type="text" id="reg-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS Anda..." required>
+                </div>
+                
+                <!-- Jenjang Pendidikan -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Jenjang Pendidikan</label>
+                    <select id="reg-jenjang" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" required>
+                        <option value="" disabled selected>Pilih Jenjang...</option>
+                        <option value="SD / MI">SD / MI</option>
+                        <option value="SMP / MTs">SMP / MTs</option>
+                        <option value="SMA / SMK">SMA / SMK</option>
+                    </select>
+                </div>
+
+                <!-- Kelas -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Kelas</label>
+                    <input type="text" id="reg-kelas" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: 6A, IX B, XII TKJ 1..." required>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Password</label>
+                    <input type="password" id="reg-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buat password baru..." required minlength="6">
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition mb-4">DAFTAR SEKARANG</button>
+                
+                <div class="text-center text-sm border-t pt-4">
+                    <span class="text-gray-600">Sudah punya akun?</span>
+                    <button type="button" onclick="switchView('view-login')" class="text-blue-600 font-bold hover:underline ml-1">Login di sini</button>
+                </div>
             </form>
         </div>
     </div>
@@ -49,27 +120,26 @@
     <div id="view-dashboard" class="hidden-view min-h-screen">
         <nav class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
             <h1 class="text-xl font-bold">Dashboard Siswa</h1>
-            <button onclick="switchView('view-login')" class="bg-red-500 px-4 py-2 rounded text-sm hover:bg-red-600">Logout</button>
+            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded text-sm font-bold hover:bg-red-600">Logout</button>
         </nav>
         <div class="container mx-auto p-6 max-w-4xl">
-            <!-- Profil Singkat -->
+            <!-- Profil Singkat Dinamis -->
             <div class="bg-white p-6 rounded-lg shadow mb-6 flex items-center gap-6">
-                <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold text-2xl">A</div>
+                <div id="dash-avatar" class="w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-600 font-bold text-3xl uppercase shrink-0">A</div>
                 <div>
-                    <h2 class="text-2xl font-bold">Ahmad Siswa</h2>
-                    <p class="text-gray-600">NIS: 12345 | Kelas: XI TKJ</p>
+                    <h2 id="dash-nama" class="text-2xl font-bold text-gray-800">Ahmad Siswa Default</h2>
+                    <p id="dash-info" class="text-gray-600 font-medium mt-1">NIS: 12345 | Jenjang: SMA / SMK | Kelas: XI TKJ</p>
                 </div>
             </div>
 
             <h3 class="text-xl font-bold mb-4">Ujian Tersedia</h3>
-            <!-- Kartu Ujian -->
             <div class="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center border-l-4 border-blue-500">
                 <div>
-                    <h4 class="text-lg font-bold">PAS Matematika</h4>
-                    <p class="text-gray-600 text-sm">Kelas XI | 5 Soal | Durasi 90 Menit</p>
-                    <span class="inline-block mt-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full">Status: Belum dikerjakan</span>
+                    <h4 class="text-lg font-bold text-gray-800">PAS Matematika</h4>
+                    <p class="text-gray-600 text-sm mt-1">5 Soal | Durasi 90 Menit</p>
+                    <span class="inline-block mt-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full font-semibold">Status: Belum dikerjakan</span>
                 </div>
-                <button onclick="switchView('view-pre-exam')" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold">MULAI</button>
+                <button onclick="switchView('view-pre-exam')" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition">MULAI UJIAN</button>
             </div>
         </div>
     </div>
@@ -78,13 +148,11 @@
     <div id="view-pre-exam" class="hidden-view min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl border-t-8 border-blue-600">
             <h2 class="text-2xl font-bold text-center mb-6">PENILAIAN AKHIR SEMESTER<br>MATEMATIKA</h2>
-            
-            <div class="bg-gray-50 p-4 rounded mb-6 text-sm">
-                <p><strong>Jumlah soal :</strong> 5 Soal (Demo)</p>
-                <p><strong>Durasi :</strong> 90 Menit</p>
+            <div class="bg-gray-50 p-4 rounded mb-6 text-sm border">
+                <p class="mb-1"><strong>Jumlah soal :</strong> 5 Soal (Demo)</p>
+                <p class="mb-1"><strong>Durasi :</strong> 90 Menit</p>
                 <p><strong>Kesempatan :</strong> 1 kali</p>
             </div>
-
             <div class="bg-red-50 text-red-700 p-4 rounded mb-8 text-sm border-l-4 border-red-500">
                 <p class="font-bold mb-2">Perhatian:</p>
                 <ul class="list-disc pl-5 space-y-1">
@@ -93,17 +161,15 @@
                     <li>Waktu akan berjalan setelah tombol mulai ditekan.</li>
                 </ul>
             </div>
-
             <div class="flex justify-between">
-                <button onclick="switchView('view-dashboard')" class="bg-gray-300 text-gray-800 px-6 py-2 rounded font-bold hover:bg-gray-400">BATAL</button>
-                <button onclick="startExam()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700">MULAI UJIAN</button>
+                <button onclick="switchView('view-dashboard')" class="bg-gray-300 text-gray-800 px-6 py-2 rounded font-bold hover:bg-gray-400 transition">BATAL</button>
+                <button onclick="startExam()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 transition">MULAI UJIAN</button>
             </div>
         </div>
     </div>
 
     <!-- 4. HALAMAN PENGERJAAN SOAL -->
     <div id="view-exam" class="hidden-view min-h-screen flex flex-col">
-        <!-- Header Ujian -->
         <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
             <h1 class="text-lg md:text-xl font-bold text-gray-800">PAS MATEMATIKA</h1>
             <div class="bg-red-100 text-red-700 px-4 py-2 rounded font-mono font-bold text-xl border border-red-200">
@@ -112,50 +178,33 @@
         </header>
 
         <div class="flex-1 container mx-auto p-4 flex flex-col md:flex-row gap-6">
-            <!-- Kolom Kiri: Area Soal -->
             <div class="md:w-3/4 bg-white p-6 rounded-lg shadow relative">
                 <div class="flex justify-between items-center mb-4 border-b pb-2">
                     <h2 class="text-xl font-bold">Soal No. <span id="current-question-num">1</span></h2>
-                    <label class="flex items-center gap-2 cursor-pointer text-yellow-600 bg-yellow-50 px-3 py-1 rounded border border-yellow-200">
-                        <input type="checkbox" id="mark-doubt" onchange="toggleDoubt()" class="w-4 h-4">
+                    <label class="flex items-center gap-2 cursor-pointer text-yellow-600 bg-yellow-50 px-3 py-1 rounded border border-yellow-200 hover:bg-yellow-100 transition">
+                        <input type="checkbox" id="mark-doubt" onchange="toggleDoubt()" class="w-4 h-4 cursor-pointer">
                         <span class="font-semibold text-sm">Ragu-ragu</span>
                     </label>
                 </div>
-
-                <div class="text-lg mb-6" id="question-text">
-                    <!-- Teks soal akan dimuat di sini oleh JS -->
-                </div>
-
-                <div class="space-y-3" id="options-container">
-                    <!-- Pilihan Ganda dimuat di sini -->
-                </div>
-
-                <!-- Navigasi Bawah -->
+                <div class="text-lg mb-6 font-medium text-gray-800" id="question-text"></div>
+                <div class="space-y-3" id="options-container"></div>
                 <div class="mt-8 flex justify-between items-center pt-4 border-t">
-                    <button onclick="prevQuestion()" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-semibold" id="btn-prev">← Sebelumnya</button>
-                    <button onclick="nextQuestion()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-semibold" id="btn-next">Selanjutnya →</button>
+                    <button onclick="prevQuestion()" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold text-gray-700 transition" id="btn-prev">← Sebelumnya</button>
+                    <button onclick="nextQuestion()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-bold transition" id="btn-next">Selanjutnya →</button>
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Navigasi Nomor & Submit -->
             <div class="md:w-1/4">
                 <div class="bg-white p-4 rounded-lg shadow sticky top-24">
                     <h3 class="font-bold text-gray-700 mb-4 border-b pb-2">Navigasi Soal</h3>
-                    
-                    <!-- Keterangan Warna -->
-                    <div class="text-xs mb-4 space-y-1">
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-gray-200 border border-gray-400"></div> Belum dijawab</div>
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-green-500"></div> Sudah dijawab</div>
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-yellow-400"></div> Ragu-ragu</div>
-                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-white border-2 border-blue-500"></div> Sedang dibuka</div>
+                    <div class="text-xs mb-4 space-y-2 text-gray-600 font-medium">
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-gray-200 border border-gray-400 rounded-sm"></div> Belum dijawab</div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-green-500 rounded-sm"></div> Sudah dijawab</div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-yellow-400 rounded-sm"></div> Ragu-ragu</div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 bg-white border-2 border-blue-500 rounded-sm"></div> Sedang dibuka</div>
                     </div>
-
-                    <!-- Grid Nomor -->
-                    <div class="grid grid-cols-5 gap-2 mb-6" id="number-grid">
-                        <!-- Tombol nomor akan digenerate JS -->
-                    </div>
-
-                    <button onclick="showSubmitModal()" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 shadow text-lg">
+                    <div class="grid grid-cols-5 gap-2 mb-6" id="number-grid"></div>
+                    <button onclick="showSubmitModal()" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 shadow text-lg transition">
                         SELESAI UJIAN
                     </button>
                 </div>
@@ -164,87 +213,173 @@
     </div>
 
     <!-- MODAL KONFIRMASI SUBMIT -->
-    <div id="submit-modal" class="hidden-view fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-            <h2 class="text-2xl font-bold mb-4">KONFIRMASI</h2>
+    <div id="submit-modal" class="hidden-view fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">KONFIRMASI</h2>
             <div class="mb-6">
-                <p class="mb-2">Anda masih memiliki:</p>
-                <div class="flex justify-between bg-gray-100 p-2 rounded mb-1">
-                    <span>Sudah dijawab:</span> <span id="count-answered" class="font-bold text-green-600">0 soal</span>
+                <p class="mb-2 text-gray-600">Status jawaban Anda saat ini:</p>
+                <div class="flex justify-between bg-green-50 text-green-700 p-3 rounded mb-2 border border-green-200">
+                    <span class="font-semibold">Sudah dijawab:</span> <span id="count-answered" class="font-bold">0 soal</span>
                 </div>
-                <div class="flex justify-between bg-gray-100 p-2 rounded mb-4">
-                    <span>Belum dijawab:</span> <span id="count-unanswered" class="font-bold text-red-600">5 soal</span>
+                <div class="flex justify-between bg-red-50 text-red-700 p-3 rounded mb-4 border border-red-200">
+                    <span class="font-semibold">Belum dijawab:</span> <span id="count-unanswered" class="font-bold">5 soal</span>
                 </div>
-                <p class="text-center font-semibold text-gray-700">Apakah Anda yakin ingin mengakhiri ujian?</p>
+                <p class="text-center font-bold text-gray-700 mt-4">Apakah Anda yakin ingin mengakhiri ujian?</p>
             </div>
-            <div class="flex justify-end gap-4">
-                <button onclick="closeSubmitModal()" class="bg-gray-300 px-4 py-2 rounded font-bold hover:bg-gray-400">KEMBALI</button>
-                <button onclick="finishExam()" class="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700">YA, KUMPULKAN</button>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeSubmitModal()" class="bg-gray-200 px-4 py-2 rounded font-bold hover:bg-gray-300 text-gray-700 w-1/2 transition">KEMBALI</button>
+                <button onclick="finishExam()" class="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 w-1/2 transition">YA, KUMPULKAN</button>
             </div>
         </div>
     </div>
 
     <!-- 5. HALAMAN HASIL UJIAN -->
     <div id="view-result" class="hidden-view min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg text-center border-t-8 border-green-500">
-            <div class="text-5xl mb-4">✅</div>
-            <h2 class="text-2xl font-bold mb-2">UJIAN SELESAI</h2>
-            <p class="text-gray-600 mb-6">Ujian berhasil dikumpulkan dan disimpan di server.</p>
-            
-            <div class="grid grid-cols-2 gap-4 text-left bg-gray-50 p-4 rounded mb-6">
-                <div class="font-semibold text-gray-600">Jumlah Soal</div>
-                <div class="font-bold text-right" id="res-total">5</div>
-                
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg text-center border-t-8 border-green-500 my-8">
+            <div class="text-6xl mb-4 text-green-500">✅</div>
+            <h2 class="text-3xl font-bold mb-2 text-gray-800">UJIAN SELESAI</h2>
+            <p class="text-gray-600 mb-6">Jawaban Anda berhasil disimpan di sistem.</p>
+            <div class="grid grid-cols-2 gap-4 text-left bg-gray-50 p-4 rounded-lg mb-6 border">
+                <div class="font-semibold text-gray-600">Total Soal</div>
+                <div class="font-bold text-right text-gray-800" id="res-total">5</div>
                 <div class="font-semibold text-gray-600">Dijawab</div>
                 <div class="font-bold text-right text-green-600" id="res-answered">5</div>
-                
                 <div class="font-semibold text-gray-600">Tidak Dijawab</div>
                 <div class="font-bold text-right text-red-600" id="res-unanswered">0</div>
             </div>
-
-            <!-- Opsi tampil nilai (sesuai req no 8) -->
-            <div class="mb-8 border-t border-b py-4">
-                <p class="text-sm text-gray-500 uppercase tracking-widest">NILAI ANDA</p>
-                <h1 class="text-6xl font-black text-blue-600" id="res-score">100</h1>
+            <div class="mb-8 border-t border-b py-6 bg-blue-50 rounded-lg">
+                <p class="text-sm text-blue-600 font-bold uppercase tracking-widest mb-1">NILAI ANDA</p>
+                <h1 class="text-6xl font-black text-blue-700" id="res-score">100</h1>
             </div>
-
-            <button onclick="switchView('view-dashboard')" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 w-full">KEMBALI KE DASHBOARD</button>
+            <button onclick="switchView('view-dashboard')" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 w-full transition shadow">KEMBALI KE DASHBOARD</button>
         </div>
     </div>
 
-
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Data Mock Soal
+        // --- 1. SIMULASI DATABASE ---
+        let usersDB = [
+            { nama: "Ahmad Siswa Default", nis: "12345", jenjang: "SMA / SMK", kelas: "XI TKJ", password: "password" }
+        ];
+
+        let currentUser = null;
+
+        // --- DATA MOCKUP SOAL ---
         const questions = [
-            { id: 1, text: "Nilai dari 2x + 3 = 11 adalah ....", options: ["A. 2", "B. 3", "C. 4", "D. 5", "E. 6"], correct: 2 }, // Jawaban C (index 2)
+            { id: 1, text: "Nilai dari 2x + 3 = 11 adalah ....", options: ["A. 2", "B. 3", "C. 4", "D. 5", "E. 6"], correct: 2 },
             { id: 2, text: "Bentuk sederhana dari 5x - 3x + 2 adalah ....", options: ["A. 2x + 2", "B. 8x + 2", "C. 2x - 2", "D. 2", "E. 8x"], correct: 0 },
             { id: 3, text: "Hasil dari 3² + 4² adalah ....", options: ["A. 14", "B. 25", "C. 49", "D. 7", "E. 12"], correct: 1 },
             { id: 4, text: "Jika f(x) = 2x + 1, maka f(3) = ....", options: ["A. 5", "B. 6", "C. 7", "D. 8", "E. 9"], correct: 2 },
             { id: 5, text: "Luas persegi dengan sisi 5 cm adalah ....", options: ["A. 10 cm²", "B. 15 cm²", "C. 20 cm²", "D. 25 cm²", "E. 30 cm²"], correct: 3 }
         ];
 
-        // State Aplikasi
+        // --- STATE APLIKASI ---
         let currentQuestionIndex = 0;
-        let studentAnswers = {}; // Format: { 0: 2, 1: 0 } (questionIndex: optionIndex)
-        let markedDoubt = {}; // Format: { 0: true }
+        let studentAnswers = {}; 
+        let markedDoubt = {}; 
         let timerInterval;
-        let timeLeft = 90 * 60; // 90 menit dalam detik
+        let timeLeft = 90 * 60; // 90 menit
 
-        // Fungsi Ganti Halaman
+        // --- FUNGSI NAVIGASI HALAMAN (SPA) ---
         function switchView(viewId) {
             document.querySelectorAll('body > div[id^="view-"]').forEach(el => el.classList.add('hidden-view'));
             document.getElementById(viewId).classList.remove('hidden-view');
             window.scrollTo(0,0);
         }
 
-        // Simulasi Login
-        function handleLogin(e) {
-            e.preventDefault();
-            switchView('view-dashboard');
+        function switchLoginTab(role) {
+            const tabSiswa = document.getElementById('tab-siswa');
+            const tabGuru = document.getElementById('tab-guru');
+            const formSiswa = document.getElementById('form-login-siswa');
+            const formGuru = document.getElementById('form-login-guru');
+
+            if (role === 'siswa') {
+                tabSiswa.className = "w-1/2 py-2 font-bold text-blue-600 border-b-2 border-blue-600 transition";
+                tabGuru.className = "w-1/2 py-2 font-bold text-gray-400 hover:text-green-600 cursor-pointer transition border-b border-transparent";
+                formSiswa.classList.remove('hidden');
+                formGuru.classList.add('hidden');
+            } else {
+                tabGuru.className = "w-1/2 py-2 font-bold text-green-600 border-b-2 border-green-600 transition";
+                tabSiswa.className = "w-1/2 py-2 font-bold text-gray-400 hover:text-blue-600 cursor-pointer transition border-b border-transparent";
+                formGuru.classList.remove('hidden');
+                formSiswa.classList.add('hidden');
+            }
         }
 
-        // Mulai Ujian
+        // --- LOGIC REGISTER ---
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const inputNama = document.getElementById('reg-nama').value;
+            const inputNis = document.getElementById('reg-nis').value;
+            const inputJenjang = document.getElementById('reg-jenjang').value;
+            const inputKelas = document.getElementById('reg-kelas').value;
+            const inputPassword = document.getElementById('reg-password').value;
+
+            const isNisExist = usersDB.find(user => user.nis === inputNis);
+            if (isNisExist) {
+                alert("Pendaftaran Gagal! Username/NIS tersebut sudah terdaftar.");
+                return;
+            }
+
+            usersDB.push({
+                nama: inputNama,
+                nis: inputNis,
+                jenjang: inputJenjang,
+                kelas: inputKelas,
+                password: inputPassword
+            });
+
+            alert(`Akun berhasil dibuat!\nSilakan login menggunakan NIS: ${inputNis}`);
+            e.target.reset(); 
+            
+            document.getElementById('login-nis').value = inputNis;
+            document.getElementById('login-password').value = inputPassword;
+
+            switchView('view-login'); 
+            switchLoginTab('siswa'); 
+        }
+
+        // --- LOGIC LOGIN ---
+        function handleLogin(e, role) {
+            e.preventDefault();
+            
+            if (role === 'siswa') {
+                const inputNis = document.getElementById('login-nis').value;
+                const inputPass = document.getElementById('login-password').value;
+
+                const userFound = usersDB.find(user => user.nis === inputNis && user.password === inputPass);
+
+                if (userFound) {
+                    currentUser = userFound;
+                    
+                    document.getElementById('dash-nama').innerText = currentUser.nama;
+                    document.getElementById('dash-info').innerText = `NIS: ${currentUser.nis} | Jenjang: ${currentUser.jenjang} | Kelas: ${currentUser.kelas}`;
+                    
+                    const inisial = currentUser.nama.charAt(0).toUpperCase();
+                    document.getElementById('dash-avatar').innerText = inisial;
+
+                    studentAnswers = {};
+                    markedDoubt = {};
+                    timeLeft = 90 * 60; 
+
+                    switchView('view-dashboard');
+                } else {
+                    alert("Gagal Login: Username/NIS atau Password salah!");
+                }
+            } else {
+                alert("Login Berhasil! Namun Dashboard Guru belum dibuat dalam prototipe ini.");
+            }
+        }
+
+        // --- LOGIC LOGOUT ---
+        function logout() {
+            currentUser = null; 
+            document.getElementById('login-password').value = ''; 
+            switchView('view-login');
+        }
+
+        // --- LOGIC UJIAN ---
         function startExam() {
             switchView('view-exam');
             generateNumberGrid();
@@ -252,7 +387,6 @@
             startTimer();
         }
 
-        // Generate Tombol Nomor Navigasi
         function generateNumberGrid() {
             const grid = document.getElementById('number-grid');
             grid.innerHTML = '';
@@ -267,7 +401,6 @@
             updateGridColors();
         }
 
-        // Muat Soal Tertentu
         function loadQuestion(index) {
             currentQuestionIndex = index;
             const q = questions[index];
@@ -275,7 +408,6 @@
             document.getElementById('current-question-num').innerText = index + 1;
             document.getElementById('question-text').innerText = q.text;
             
-            // Muat Pilihan
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
             q.options.forEach((opt, optIndex) => {
@@ -287,54 +419,41 @@
                             <div class="w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${isChecked ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}">
                                 ${isChecked ? '<div class="w-2 h-2 bg-white rounded-full"></div>' : ''}
                             </div>
-                            <span class="text-gray-800">${opt}</span>
+                            <span class="text-gray-800 font-medium">${opt}</span>
                         </div>
                     </label>
                 `;
                 optionsContainer.innerHTML += html;
             });
 
-            // Atur Checkbox Ragu-ragu
             document.getElementById('mark-doubt').checked = markedDoubt[index] === true;
-
-            // Atur Tombol Prev/Next
             document.getElementById('btn-prev').style.visibility = index === 0 ? 'hidden' : 'visible';
             document.getElementById('btn-next').innerText = index === questions.length - 1 ? 'Selesai' : 'Selanjutnya →';
 
             updateGridColors();
         }
 
-        // Navigasi
         function prevQuestion() { if(currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1); }
         function nextQuestion() { 
             if(currentQuestionIndex < questions.length - 1) loadQuestion(currentQuestionIndex + 1); 
-            else showSubmitModal(); // Jika di soal terakhir klik selanjutnya, buka konfirmasi
+            else showSubmitModal();
         }
 
-        // Simpan Jawaban (Auto-save)
         function saveAnswer(qIndex, optIndex) {
             studentAnswers[qIndex] = optIndex;
-            
-            // SIMULASI AJAX / AUTO SAVE KE DATABASE
-            console.log(`[AJAX] Menyimpan jawaban: Soal ID ${questions[qIndex].id}, Jawaban Index ${optIndex}`);
-            
-            // Re-render hanya pilihan soal ini agar UI radio terupdate
             loadQuestion(qIndex); 
         }
 
-        // Tandai Ragu
         function toggleDoubt() {
             markedDoubt[currentQuestionIndex] = document.getElementById('mark-doubt').checked;
             updateGridColors();
         }
 
-        // Update Warna Grid Navigasi
         function updateGridColors() {
             for(let i = 0; i < questions.length; i++) {
                 const btn = document.getElementById(`nav-btn-${i}`);
                 btn.className = 'nav-btn w-full aspect-square flex items-center justify-center font-bold rounded cursor-pointer ';
                 
-                // Prioritas Warna: Ragu -> Sudah Dijawab -> Belum
                 if (markedDoubt[i]) {
                     btn.classList.add('nav-marked');
                 } else if (studentAnswers[i] !== undefined) {
@@ -343,19 +462,15 @@
                     btn.classList.add('nav-unanswered');
                 }
 
-                // Tambahkan ring biru jika soal sedang aktif
                 if (i === currentQuestionIndex) {
                     btn.classList.add('nav-active');
                 }
             }
         }
 
-        // Timer
         function startTimer() {
             timerInterval = setInterval(() => {
                 timeLeft--;
-                
-                // Format HH:MM:SS
                 const h = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
                 const m = Math.floor((timeLeft % 3600) / 60).toString().padStart(2, '0');
                 const s = (timeLeft % 60).toString().padStart(2, '0');
@@ -364,48 +479,41 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    alert("Waktu Habis! Jawaban akan disubmit otomatis.");
-                    finishExam(true); // Auto submit
+                    alert("Waktu Habis! Jawaban disubmit otomatis oleh sistem.");
+                    finishExam(true);
                 }
             }, 1000);
         }
 
-        // Modal Submit
         function showSubmitModal() {
             const answered = Object.keys(studentAnswers).length;
             const unanswered = questions.length - answered;
             
             document.getElementById('count-answered').innerText = `${answered} soal`;
             document.getElementById('count-unanswered').innerText = `${unanswered} soal`;
-            
             document.getElementById('submit-modal').classList.remove('hidden-view');
         }
+        
         function closeSubmitModal() {
             document.getElementById('submit-modal').classList.add('hidden-view');
         }
 
-        // Proses Selesai Ujian
         function finishExam(isAutoSubmit = false) {
             clearInterval(timerInterval);
             closeSubmitModal();
             
-            // Hitung Nilai (Simulasi Backend)
             let correctCount = 0;
             questions.forEach((q, i) => {
                 if(studentAnswers[i] === q.correct) correctCount++;
             });
             const score = (correctCount / questions.length) * 100;
-
             const answered = Object.keys(studentAnswers).length;
 
-            // Render Hasil
             document.getElementById('res-total').innerText = questions.length;
             document.getElementById('res-answered').innerText = answered;
             document.getElementById('res-unanswered').innerText = questions.length - answered;
             document.getElementById('res-score').innerText = Math.round(score);
 
-            console.log("[AJAX] Status ujian diubah menjadi SELESAI");
-            
             switchView('view-result');
         }
     </script>
