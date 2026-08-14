@@ -17,9 +17,16 @@
         table.custom-table { border-collapse: collapse; width: 100%; margin-top: 10px; margin-bottom: 10px; }
         table.custom-table th, table.custom-table td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
         table.custom-table th { background-color: #f1f5f9; }
+        /* Proteksi Anti Screenshot & Seleksi (Req 1) */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     </style>
 </head>
-<body class="bg-gray-100 font-sans antialiased text-gray-800">
+<body class="bg-gray-100 font-sans antialiased text-gray-800 no-select" oncontextmenu="return false;">
 
     <!-- 1A. HALAMAN LOGIN -->
     <div id="view-login" class="min-h-screen flex items-center justify-center">
@@ -35,7 +42,7 @@
                 <button onclick="switchLoginTab('guru')" id="tab-guru" class="w-1/2 py-2 font-bold text-gray-400 hover:text-green-600 transition">Guru / Admin</button>
             </div>
 
-            <!-- Form Login Siswa (Token Opsional untuk langsung ujian atau ke dashboard - Req 2) -->
+            <!-- Form Login Siswa -->
             <form id="form-login-siswa" onsubmit="handleLogin(event, 'siswa')">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Username / NIS</label>
@@ -75,7 +82,7 @@
         </div>
     </div>
 
-    <!-- 1B. HALAMAN REGISTER / BUAT AKUN SISWA (Dengan Nama Sekolah Opsional - Req 3) -->
+    <!-- 1B. HALAMAN REGISTER / BUAT AKUN SISWA -->
     <div id="view-register" class="hidden-view min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border-t-8 border-blue-600 my-8">
             <div class="text-center mb-6">
@@ -93,7 +100,7 @@
                     <input type="text" id="reg-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS Anda..." required>
                 </div>
                 
-                <!-- Nama Sekolah (Opsional - Req 3) -->
+                <!-- Nama Sekolah (Opsional - Req 3 dari prompt sebelumnya) -->
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Nama Sekolah <span class="text-xs font-normal text-gray-500">(Opsional)</span></label>
                     <input type="text" id="reg-sekolah" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: SMA Negeri 1 Jakarta...">
@@ -290,7 +297,6 @@
 
                     <div class="mb-3">
                         <label class="block text-gray-700 font-semibold text-sm mb-1">Pertanyaan / Soal</label>
-                        <!-- Fitur Matematika Lengkap termasuk * (perkalian) dan ^ (pangkat) - Req 1 -->
                         <div class="flex flex-wrap gap-1 mb-2 bg-white p-2 border rounded text-xs items-center">
                             <span class="text-gray-500 font-bold mr-1">Simbol Matematika:</span>
                             <button type="button" onclick="insertMathSymbol('*')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono font-bold text-blue-600" title="Perkalian (*)">* (×)</button>
@@ -356,7 +362,7 @@
         </div>
     </div>
 
-    <!-- MODAL BUILDER TABEL 2x2 INTERAKTIF DENGAN FITUR MATEMATIKA LENGKAP -->
+    <!-- MODAL BUILDER TABEL 2x2 INTERAKTIF DENGAN FITUR MATEMATIKA -->
     <div id="modal-table-builder" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[60] p-4">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full">
             <h3 class="text-xl font-bold text-gray-800 mb-2">📊 Buat / Edit Tabel Interaktif (Fitur Matematika)</h3>
@@ -408,14 +414,15 @@
         </div>
     </div>
 
-    <!-- MODAL LIHAT HASIL UJIAN -->
+    <!-- MODAL LIHAT HASIL UJIAN (Dengan Fitur Buka Kunci Siswa - Req 4) -->
     <div id="modal-exam-results" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-        <div class="bg-white p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h3 id="result-modal-title" class="text-xl font-bold text-gray-800">Rekap Hasil Ujian Siswa</h3>
                 <button onclick="closeResultModal()" class="text-gray-500 hover:text-red-600 font-bold text-xl">✕</button>
             </div>
-            <div class="mb-4 flex justify-end">
+            <div class="mb-4 flex justify-between items-center">
+                <p class="text-xs text-gray-500">Anda dapat membuka kunci siswa yang tidak sengaja menekan tombol selesai ujian agar bisa mengerjakan ulang.</p>
                 <button id="btn-export-excel" onclick="downloadExcelResults()" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-emerald-700 transition flex items-center gap-2">
                     📥 Download Microsoft Excel (.xls)
                 </button>
@@ -435,11 +442,12 @@
                 <p><strong>Kesempatan :</strong> 1 kali (Auto-terkunci setelah selesai)</p>
             </div>
             <div class="bg-red-50 text-red-700 p-4 rounded mb-8 text-sm border-l-4 border-red-500">
-                <p class="font-bold mb-2">Perhatian:</p>
+                <p class="font-bold mb-2">Peraturan Keamanan Ujian (Gadget / HP):</p>
                 <ul class="list-disc pl-5 space-y-1">
-                    <li>Pastikan koneksi internet stabil.</li>
-                    <li>Ujian tidak dapat diulang setelah dikumpulkan.</li>
-                    <li>Jika tidak sengaja keluar/tertutup, Anda dapat melanjutkan dengan login kembali menggunakan NIS & Password yang sama.</li>
+                    <li>Dilarang melakukan screenshot layar (terdeteksi).</li>
+                    <li>Dilarang keluar dari aplikasi, membuka tab baru, atau berpindah aplikasi.</li>
+                    <li>Pelanggaran akan memicu <strong>Alarm (Volume 30%)</strong> dan <strong>Getar Ponsel</strong>.</li>
+                    <li>Ujian akan terkunci otomatis setelah disubmit.</li>
                 </ul>
             </div>
             <div class="flex justify-between">
@@ -453,8 +461,13 @@
     <div id="view-exam" class="hidden-view min-h-screen flex flex-col">
         <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
             <h1 id="exam-header-title" class="text-lg md:text-xl font-bold text-gray-800">UJIAN SEKOLAH</h1>
-            <div class="bg-red-100 text-red-700 px-4 py-2 rounded font-mono font-bold text-xl border border-red-200">
-                ⏱ <span id="timer-display">01:30:00</span>
+            <div class="flex items-center gap-4">
+                <div id="violation-warning-badge" class="hidden bg-red-100 text-red-700 px-3 py-1 rounded text-xs font-bold border border-red-300 animate-pulse">
+                    ⚠️ Peringatan Pelanggaran: <span id="violation-count">0</span>
+                </div>
+                <div class="bg-red-100 text-red-700 px-4 py-2 rounded font-mono font-bold text-xl border border-red-200">
+                    ⏱ <span id="timer-display">01:30:00</span>
+                </div>
             </div>
         </header>
 
@@ -625,6 +638,66 @@
         let tempQuestionTable = null;
         let activeResultExamId = null;
         let activeTableCell = null;
+        let violationCount = 0; // Penghitung pelanggaran aturan ujian (Req 3)
+
+        // --- SISTEM ALARM & GETAR PELANGGARAN (Req 3) ---
+        function triggerViolationAlarm() {
+            violationCount++;
+            document.getElementById('violation-count').innerText = violationCount;
+            document.getElementById('violation-warning-badge').classList.remove('hidden');
+
+            // 1. Getar ponsel (vibrate) khusus gadget/handphone jika didukung
+            if ("vibrate" in navigator) {
+                try {
+                    navigator.vibrate([400, 200, 400, 200, 600]);
+                } catch(e) {}
+            }
+
+            // 2. Alarm suara dengan Volume 30% menggunakan Web Audio API
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                gainNode.gain.value = 0.3; // Volume tepat 30%
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 750; // Frekuensi alarm
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioCtx.close();
+                }, 1200);
+            } catch(e) {}
+
+            alert(`⚠️ PERINGATAN PELANGGARAN (${violationCount})!\nAnda terdeteksi keluar dari halaman ujian, mencoba membuka tab baru, atau melakukan screenshot. Aturan ujian melarang tindakan ini!`);
+        }
+
+        // Deteksi pindah tab / keluar aplikasi / blur (Req 2 & 3)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && activeExam && !document.getElementById('view-exam').classList.contains('hidden-view')) {
+                triggerViolationAlarm();
+            }
+        });
+
+        window.addEventListener('blur', function() {
+            if (activeExam && !document.getElementById('view-exam').classList.contains('hidden-view')) {
+                triggerViolationAlarm();
+            }
+        });
+
+        // Proteksi tambahan anti screenshot shortcut key (PrntScrn, Cmd+Shift+S, dll)
+        document.addEventListener('keydown', function(e) {
+            if (activeExam && !document.getElementById('view-exam').classList.contains('hidden-view')) {
+                if (e.key === 'PrintScreen' || (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) || (e.metaKey && e.shiftKey)) {
+                    e.preventDefault();
+                    triggerViolationAlarm();
+                }
+            }
+        });
 
         function populateClassOptions(jenjangSelectId, kelasSelectId, selectedValue = '') {
             const jenjang = document.getElementById(jenjangSelectId).value;
@@ -763,7 +836,7 @@
             e.preventDefault();
             const inputNama = document.getElementById('reg-nama').value;
             const inputNis = document.getElementById('reg-nis').value.trim();
-            const inputSekolah = document.getElementById('reg-sekolah').value.trim(); // Opsional - Req 3
+            const inputSekolah = document.getElementById('reg-sekolah').value.trim();
             const inputJenjang = document.getElementById('reg-jenjang').value;
             const inputKelas = document.getElementById('reg-kelas').value;
             const inputPassword = document.getElementById('reg-password').value;
@@ -794,7 +867,7 @@
             switchLoginTab('siswa'); 
         }
 
-        // --- HANDLE LOGIN DENGAN / TANPA TOKEN (Req 2) ---
+        // --- HANDLE LOGIN DENGAN / TANPA TOKEN ---
         function handleLogin(e, role) {
             e.preventDefault();
             if (role === 'siswa') {
@@ -807,7 +880,6 @@
                     currentUser = userFound;
                     
                     if (inputToken) {
-                        // Siswa mengisi token -> langsung mulai ujian (jika belum selesai & ujian aktif)
                         const validExam = examsDB.find(ex => ex.token === inputToken);
                         if (!validExam) {
                             alert("Token Ujian Salah atau Tidak Aktif!");
@@ -819,7 +891,6 @@
                             return;
                         }
 
-                        // Cek apakah sudah dikerjakan/terkunci (Req 4)
                         if (examResultsDB.some(r => r.examId === validExam.id && r.nis === currentUser.nis)) {
                             alert("Ujian ini sudah Anda selesaikan sebelumnya dan otomatis terkunci. Anda akan diarahkan ke Dashboard.");
                             loadStudentDashboard();
@@ -829,7 +900,6 @@
 
                         prepareExam(validExam.id);
                     } else {
-                        // Tanpa token -> ke dashboard soal dulu (Req 2)
                         loadStudentDashboard();
                         switchView('view-dashboard');
                     }
@@ -983,7 +1053,7 @@
             }
         }
 
-        // --- LIHAT HASIL DENGAN WAKTU SELESAI ---
+        // --- LIHAT HASIL & BUKA KUNCI SISWA (Req 4) ---
         function openExamResults(examId) {
             activeResultExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -1003,6 +1073,7 @@
                             <th>Nama Siswa</th>
                             <th>Nilai Akhir</th>
                             <th>Waktu Selesai</th>
+                            <th class="text-center">Aksi (Buka Kunci)</th>
                         </tr>
                 `;
                 results.forEach(res => {
@@ -1012,6 +1083,9 @@
                             <td>${res.nama}</td>
                             <td><span class="font-bold text-blue-600">${res.nilai}</span></td>
                             <td>${res.waktuSelesai || '-'}</td>
+                            <td class="text-center">
+                                <button onclick="unlockStudentExam(${examId}, '${res.nis}')" class="bg-amber-500 text-white px-3 py-1 rounded text-xs font-bold hover:bg-amber-600 transition" title="Buka kunci agar siswa bisa mengerjakan ulang">🔓 Buka Kunci</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -1020,6 +1094,15 @@
             }
 
             document.getElementById('modal-exam-results').classList.remove('hidden-view');
+        }
+
+        function unlockStudentExam(examId, nis) {
+            if (confirm(`Apakah Anda yakin ingin membuka kunci ujian untuk siswa dengan NIS ${nis}? Siswa akan dapat mengerjakan ulang atau melanjutkan ujiannya.`)) {
+                examResultsDB = examResultsDB.filter(r => !(r.examId === examId && r.nis === nis));
+                localStorage.removeItem(`cbt_session_${nis}_${examId}`);
+                alert("Ujian siswa berhasil dibuka kuncinya.");
+                openExamResults(examId);
+            }
         }
 
         function closeResultModal() {
@@ -1057,7 +1140,7 @@
             }
         }
 
-        // --- KELOLA SOAL (Fitur Matematika Lengkap dengan * dan ^ - Req 1) ---
+        // --- KELOLA SOAL ---
         function openManageSoalModal(examId) {
             activeManagingExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -1560,7 +1643,7 @@
             document.getElementById('btn-cancel-edit').classList.add('hidden');
         }
 
-        // --- UJIAN SISWA & LANJUTKAN UJIAN SETELAH KELUAR (Req 4 & 5) ---
+        // --- UJIAN SISWA & LANJUTKAN UJIAN SETELAH KELUAR ---
         function prepareExam(examId) {
             const exam = examsDB.find(ex => ex.id === examId);
             if (!exam || exam.questions.length === 0) {
@@ -1568,7 +1651,6 @@
                 return;
             }
 
-            // Cek apakah sudah selesai/terkunci (Req 4)
             if (examResultsDB.some(r => r.examId === examId && r.nis === currentUser.nis)) {
                 alert("Ujian ini sudah selesai dan otomatis terkunci untuk Anda.");
                 loadStudentDashboard();
@@ -1577,6 +1659,10 @@
             }
 
             activeExam = exam;
+            violationCount = 0;
+            document.getElementById('violation-count').innerText = violationCount;
+            document.getElementById('violation-warning-badge').classList.add('hidden');
+
             document.getElementById('pre-exam-title').innerText = exam.title.toUpperCase();
             document.getElementById('pre-exam-subject').innerText = exam.title;
             document.getElementById('pre-exam-total-soal').innerText = exam.questions.length;
@@ -1595,7 +1681,6 @@
         function startExam() {
             switchView('view-exam');
 
-            // Cek apakah ada sesi tersimpan di localStorage untuk melanjutkan ujian jika tidak sengaja keluar (Req 5)
             const sessionKey = `cbt_session_${currentUser.nis}_${activeExam.id}`;
             const savedSession = localStorage.getItem(sessionKey);
 
@@ -1605,14 +1690,21 @@
                     studentAnswers = sessionData.studentAnswers || {};
                     markedDoubt = sessionData.markedDoubt || {};
                     timeLeft = sessionData.timeLeft || (90 * 60);
+                    violationCount = sessionData.violationCount || 0;
+                    if (violationCount > 0) {
+                        document.getElementById('violation-count').innerText = violationCount;
+                        document.getElementById('violation-warning-badge').classList.remove('hidden');
+                    }
                 } catch(e) {
                     studentAnswers = {};
                     markedDoubt = {};
                     timeLeft = 90 * 60;
+                    violationCount = 0;
                 }
             } else {
                 studentAnswers = {};
                 markedDoubt = {};
+                violationCount = 0;
                 let durationMinutes = 90;
                 if (activeExam.duration.includes("60")) durationMinutes = 60;
                 else if (activeExam.duration.includes("120")) durationMinutes = 120;
@@ -1772,7 +1864,8 @@
             const sessionData = {
                 studentAnswers: studentAnswers,
                 markedDoubt: markedDoubt,
-                timeLeft: timeLeft
+                timeLeft: timeLeft,
+                violationCount: violationCount
             };
             localStorage.setItem(sessionKey, JSON.stringify(sessionData));
         }
@@ -1839,7 +1932,6 @@
             document.getElementById('submit-modal').classList.add('hidden-view');
         }
 
-        // --- RUMUS NILAI & AUTO-TERKUNCI SETELAH SELESAI (Req 4) ---
         function finishExam(isAutoSubmit = false) {
             clearInterval(timerInterval);
             closeSubmitModal();
@@ -1909,7 +2001,6 @@
 
             const waktuSelesaiStr = new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'medium' });
 
-            // Simpan hasil agar otomatis terkunci (Req 4)
             examResultsDB.push({
                 examId: activeExam.id,
                 nis: currentUser.nis,
@@ -1918,7 +2009,6 @@
                 waktuSelesai: waktuSelesaiStr
             });
 
-            // Hapus sesi aktif dari localStorage karena sudah selesai
             localStorage.removeItem(`cbt_session_${currentUser.nis}_${activeExam.id}`);
 
             document.getElementById('res-total').innerText = totalQuestions;
