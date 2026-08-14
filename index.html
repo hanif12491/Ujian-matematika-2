@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Ujian Sekolah (CBT)</title>
-    <!-- Menggunakan Tailwind CSS untuk styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .hidden-view { display: none !important; }
@@ -37,11 +36,15 @@
             <form id="form-login-siswa" onsubmit="handleLogin(event, 'siswa')">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Username / NIS</label>
-                    <input type="text" id="login-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS..." required value="12345">
+                    <input type="text" id="login-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS..." required>
                 </div>
-                <div class="mb-6">
+                <div class="mb-2">
                     <label class="block text-gray-700 font-semibold mb-2">Password</label>
-                    <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required value="password">
+                    <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required>
+                </div>
+                <!-- Fitur Lupa Password Siswa -->
+                <div class="text-right mb-6">
+                    <button type="button" onclick="showForgotPasswordModal('siswa')" class="text-xs text-blue-600 hover:underline font-semibold">Lupa Password?</button>
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">LOGIN SISWA</button>
                 
@@ -55,11 +58,15 @@
             <form id="form-login-guru" class="hidden" onsubmit="handleLogin(event, 'guru')">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Username / NIP</label>
-                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan NIP Guru..." required>
+                    <input type="text" id="login-nip-guru" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan NIP Guru..." required value="12491">
                 </div>
-                <div class="mb-6">
+                <div class="mb-2">
                     <label class="block text-gray-700 font-semibold mb-2">Password</label>
-                    <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan Password..." required>
+                    <input type="password" id="login-pass-guru" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan Password..." required value="Mashari123">
+                </div>
+                <!-- Fitur Lupa Password Guru -->
+                <div class="text-right mb-6">
+                    <button type="button" onclick="showForgotPasswordModal('guru')" class="text-xs text-green-600 hover:underline font-semibold">Lupa Password?</button>
                 </div>
                 <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition">LOGIN GURU</button>
             </form>
@@ -84,7 +91,6 @@
                     <input type="text" id="reg-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS Anda..." required>
                 </div>
                 
-                <!-- Jenjang Pendidikan -->
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Jenjang Pendidikan</label>
                     <select id="reg-jenjang" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" required>
@@ -95,10 +101,9 @@
                     </select>
                 </div>
 
-                <!-- Kelas -->
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Kelas</label>
-                    <input type="text" id="reg-kelas" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: 6A, IX B, XII TKJ 1..." required>
+                    <input type="text" id="reg-kelas" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: 6, IX, XI TKJ..." required>
                 </div>
 
                 <div class="mb-6">
@@ -127,19 +132,15 @@
             <div class="bg-white p-6 rounded-lg shadow mb-6 flex items-center gap-6">
                 <div id="dash-avatar" class="w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-600 font-bold text-3xl uppercase shrink-0">A</div>
                 <div>
-                    <h2 id="dash-nama" class="text-2xl font-bold text-gray-800">Ahmad Siswa Default</h2>
-                    <p id="dash-info" class="text-gray-600 font-medium mt-1">NIS: 12345 | Jenjang: SMA / SMK | Kelas: XI TKJ</p>
+                    <h2 id="dash-nama" class="text-2xl font-bold text-gray-800">Nama Siswa</h2>
+                    <p id="dash-info" class="text-gray-600 font-medium mt-1">NIS: - | Jenjang: - | Kelas: -</p>
                 </div>
             </div>
 
-            <h3 class="text-xl font-bold mb-4">Ujian Tersedia</h3>
-            <div class="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center border-l-4 border-blue-500">
-                <div>
-                    <h4 class="text-lg font-bold text-gray-800">PAS Matematika</h4>
-                    <p class="text-gray-600 text-sm mt-1">5 Soal | Durasi 90 Menit</p>
-                    <span class="inline-block mt-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full font-semibold">Status: Belum dikerjakan</span>
-                </div>
-                <button onclick="switchView('view-pre-exam')" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition">MULAI UJIAN</button>
+            <h3 class="text-xl font-bold mb-4">Daftar Ujian Sesuai Kelas Anda</h3>
+            <!-- Kontainer Daftar Ujian Berdasarkan Kelas -->
+            <div id="exam-list-container" class="space-y-4">
+                <!-- Data ujian akan di-generate otomatis oleh JS berdasarkan kelas profil siswa -->
             </div>
         </div>
     </div>
@@ -147,8 +148,9 @@
     <!-- 3. KONFIRMASI SEBELUM UJIAN -->
     <div id="view-pre-exam" class="hidden-view min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl border-t-8 border-blue-600">
-            <h2 class="text-2xl font-bold text-center mb-6">PENILAIAN AKHIR SEMESTER<br>MATEMATIKA</h2>
+            <h2 id="pre-exam-title" class="text-2xl font-bold text-center mb-6 uppercase">PENILAIAN AKHIR SEMESTER</h2>
             <div class="bg-gray-50 p-4 rounded mb-6 text-sm border">
+                <p class="mb-1"><strong>Mata Pelajaran :</strong> <span id="pre-exam-subject">-</span></p>
                 <p class="mb-1"><strong>Jumlah soal :</strong> 5 Soal (Demo)</p>
                 <p class="mb-1"><strong>Durasi :</strong> 90 Menit</p>
                 <p><strong>Kesempatan :</strong> 1 kali</p>
@@ -171,7 +173,7 @@
     <!-- 4. HALAMAN PENGERJAAN SOAL -->
     <div id="view-exam" class="hidden-view min-h-screen flex flex-col">
         <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
-            <h1 class="text-lg md:text-xl font-bold text-gray-800">PAS MATEMATIKA</h1>
+            <h1 id="exam-header-title" class="text-lg md:text-xl font-bold text-gray-800">UJIAN SEKOLAH</h1>
             <div class="bg-red-100 text-red-700 px-4 py-2 rounded font-mono font-bold text-xl border border-red-200">
                 ⏱ <span id="timer-display">01:30:00</span>
             </div>
@@ -233,6 +235,24 @@
         </div>
     </div>
 
+    <!-- MODAL LUPA PASSWORD -->
+    <div id="forgot-modal" class="hidden-view fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-t-8 border-yellow-500">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">LUPA PASSWORD</h2>
+            <p id="forgot-desc" class="text-sm text-gray-600 mb-4">Masukkan NIS / NIP Anda untuk memulihkan sandi.</p>
+            <form onsubmit="handleForgotPassword(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Username / NIS / NIP</label>
+                    <input type="text" id="forgot-username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Masukkan ID Anda..." required>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeForgotPasswordModal()" class="bg-gray-200 px-4 py-2 rounded font-bold hover:bg-gray-300 text-gray-700 w-1/2 transition">BATAL</button>
+                    <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded font-bold hover:bg-yellow-600 w-1/2 transition">CEK PASSWORD</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- 5. HALAMAN HASIL UJIAN -->
     <div id="view-result" class="hidden-view min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg text-center border-t-8 border-green-500 my-8">
@@ -258,11 +278,22 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- 1. SIMULASI DATABASE ---
+        // Akun default siswa dihapus, hanya menyisakan database kosong untuk pendaftaran baru & Guru Admin default
         let usersDB = [
-            { nama: "Ahmad Siswa Default", nis: "12345", jenjang: "SMA / SMK", kelas: "XI TKJ", password: "password" }
+            { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123" }
+        ];
+
+        // Daftar Ujian Tersedia berdasarkan target kelas
+        let examsDB = [
+            { id: 1, title: "PAS Matematika", targetKelas: ["XI TKJ", "11", "XI"], duration: "90 Menit", totalSoal: 5 },
+            { id: 2, title: "PAS Bahasa Indonesia", targetKelas: ["XI TKJ", "11", "XI"], duration: "90 Menit", totalSoal: 5 },
+            { id: 3, title: "PAS IPA Terpadu", targetKelas: ["6", "6A", "VI"], duration: "90 Menit", totalSoal: 5 },
+            { id: 4, title: "PAS IPS", targetKelas: ["IX", "IX B", "9"], duration: "90 Menit", totalSoal: 5 }
         ];
 
         let currentUser = null;
+        let activeExam = null;
+        let forgotRoleType = 'siswa';
 
         // --- DATA MOCKUP SOAL ---
         const questions = [
@@ -273,14 +304,12 @@
             { id: 5, text: "Luas persegi dengan sisi 5 cm adalah ....", options: ["A. 10 cm²", "B. 15 cm²", "C. 20 cm²", "D. 25 cm²", "E. 30 cm²"], correct: 3 }
         ];
 
-        // --- STATE APLIKASI ---
         let currentQuestionIndex = 0;
         let studentAnswers = {}; 
         let markedDoubt = {}; 
         let timerInterval;
-        let timeLeft = 90 * 60; // 90 menit
+        let timeLeft = 90 * 60;
 
-        // --- FUNGSI NAVIGASI HALAMAN (SPA) ---
         function switchView(viewId) {
             document.querySelectorAll('body > div[id^="view-"]').forEach(el => el.classList.add('hidden-view'));
             document.getElementById(viewId).classList.remove('hidden-view');
@@ -306,6 +335,30 @@
             }
         }
 
+        // --- MODAL LUPA PASSWORD ---
+        function showForgotPasswordModal(role) {
+            forgotRoleType = role;
+            document.getElementById('forgot-username').value = '';
+            document.getElementById('forgot-modal').classList.remove('hidden-view');
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgot-modal').classList.add('hidden-view');
+        }
+
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            const idInput = document.getElementById('forgot-username').value.trim();
+            const found = usersDB.find(u => u.nis === idInput);
+
+            if (found) {
+                alert(`Data ditemukan!\nNama: ${found.nama}\nPassword Anda adalah: ${found.password}`);
+                closeForgotPasswordModal();
+            } else {
+                alert("Username / NIS / NIP tidak ditemukan di sistem!");
+            }
+        }
+
         // --- LOGIC REGISTER ---
         function handleRegister(e) {
             e.preventDefault();
@@ -313,7 +366,7 @@
             const inputNama = document.getElementById('reg-nama').value;
             const inputNis = document.getElementById('reg-nis').value;
             const inputJenjang = document.getElementById('reg-jenjang').value;
-            const inputKelas = document.getElementById('reg-kelas').value;
+            const inputKelas = document.getElementById('reg-kelas').value.trim();
             const inputPassword = document.getElementById('reg-password').value;
 
             const isNisExist = usersDB.find(user => user.nis === inputNis);
@@ -327,15 +380,14 @@
                 nis: inputNis,
                 jenjang: inputJenjang,
                 kelas: inputKelas,
-                password: inputPassword
+                password: inputPassword,
+                role: "siswa"
             });
 
             alert(`Akun berhasil dibuat!\nSilakan login menggunakan NIS: ${inputNis}`);
             e.target.reset(); 
             
             document.getElementById('login-nis').value = inputNis;
-            document.getElementById('login-password').value = inputPassword;
-
             switchView('view-login'); 
             switchLoginTab('siswa'); 
         }
@@ -345,31 +397,76 @@
             e.preventDefault();
             
             if (role === 'siswa') {
-                const inputNis = document.getElementById('login-nis').value;
+                const inputNis = document.getElementById('login-nis').value.trim();
                 const inputPass = document.getElementById('login-password').value;
 
-                const userFound = usersDB.find(user => user.nis === inputNis && user.password === inputPass);
+                const userFound = usersDB.find(user => user.nis === inputNis && user.password === inputPass && user.role === 'siswa');
 
                 if (userFound) {
                     currentUser = userFound;
-                    
-                    document.getElementById('dash-nama').innerText = currentUser.nama;
-                    document.getElementById('dash-info').innerText = `NIS: ${currentUser.nis} | Jenjang: ${currentUser.jenjang} | Kelas: ${currentUser.kelas}`;
-                    
-                    const inisial = currentUser.nama.charAt(0).toUpperCase();
-                    document.getElementById('dash-avatar').innerText = inisial;
-
-                    studentAnswers = {};
-                    markedDoubt = {};
-                    timeLeft = 90 * 60; 
-
+                    loadStudentDashboard();
                     switchView('view-dashboard');
                 } else {
-                    alert("Gagal Login: Username/NIS atau Password salah!");
+                    alert("Gagal Login: NIS atau Password Siswa salah!");
                 }
             } else {
-                alert("Login Berhasil! Namun Dashboard Guru belum dibuat dalam prototipe ini.");
+                const inputNip = document.getElementById('login-nip-guru').value.trim();
+                const inputPass = document.getElementById('login-pass-guru').value;
+
+                const userFound = usersDB.find(user => user.nis === inputNip && user.password === inputPass && user.role === 'guru');
+
+                if (userFound) {
+                    alert("Login Guru Berhasil! (Dashboard Guru / Admin mengarahkan ke panel kelola ujian)");
+                } else {
+                    alert("Gagal Login: NIP atau Password Guru salah!");
+                }
             }
+        }
+
+        // --- LOAD DASHBOARD & FILTER UJIAN SESUAI KELAS PROFIL ---
+        function loadStudentDashboard() {
+            document.getElementById('dash-nama').innerText = currentUser.nama;
+            document.getElementById('dash-info').innerText = `NIS: ${currentUser.nis} | Jenjang: ${currentUser.jenjang} | Kelas: ${currentUser.kelas}`;
+            document.getElementById('dash-avatar').innerText = currentUser.nama.charAt(0).toUpperCase();
+
+            // Filter ujian yang sesuai dengan kelas siswa (case-insensitive atau partial match)
+            const container = document.getElementById('exam-list-container');
+            container.innerHTML = '';
+
+            const matchedExams = examsDB.filter(exam => {
+                return exam.targetKelas.some(k => k.toLowerCase() === currentUser.kelas.toLowerCase());
+            });
+
+            if (matchedExams.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow text-center text-gray-500">
+                        Tidak ada ujian aktif yang tersedia untuk kelas Anda (${currentUser.kelas}).
+                    </div>
+                `;
+                return;
+            }
+
+            matchedExams.forEach(exam => {
+                const card = `
+                    <div class="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center border-l-4 border-blue-500">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-800">${exam.title}</h4>
+                            <p class="text-gray-600 text-sm mt-1">Kelas: ${currentUser.kelas} | ${exam.totalSoal} Soal | Durasi ${exam.duration}</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full font-semibold">Status: Belum dikerjakan</span>
+                        </div>
+                        <button onclick="prepareExam('${exam.title}')" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition">MULAI UJIAN</button>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function prepareExam(examTitle) {
+            activeExam = examTitle;
+            document.getElementById('pre-exam-title').innerText = examTitle.toUpperCase();
+            document.getElementById('pre-exam-subject').innerText = examTitle;
+            document.getElementById('exam-header-title').innerText = examTitle.toUpperCase();
+            switchView('view-pre-exam');
         }
 
         // --- LOGIC LOGOUT ---
@@ -469,6 +566,10 @@
         }
 
         function startTimer() {
+            studentAnswers = {};
+            markedDoubt = {};
+            timeLeft = 90 * 60; 
+
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const h = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
