@@ -35,7 +35,7 @@
                 <button onclick="switchLoginTab('guru')" id="tab-guru" class="w-1/2 py-2 font-bold text-gray-400 hover:text-green-600 transition">Guru / Admin</button>
             </div>
 
-            <!-- Form Login Siswa -->
+            <!-- Form Login Siswa (Token Opsional untuk langsung ujian atau ke dashboard - Req 2) -->
             <form id="form-login-siswa" onsubmit="handleLogin(event, 'siswa')">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Username / NIS</label>
@@ -46,8 +46,8 @@
                     <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required>
                 </div>
                 <div class="mb-2">
-                    <label class="block text-gray-700 font-semibold mb-2">Token Masuk Ujian</label>
-                    <input type="text" id="login-token" class="w-full px-4 py-2 border rounded-lg uppercase tracking-widest font-bold text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Token Ujian..." required value="MTH90">
+                    <label class="block text-gray-700 font-semibold mb-2">Token Masuk Ujian <span class="text-xs font-normal text-gray-500">(Opsional: isi untuk langsung mulai ujian)</span></label>
+                    <input type="text" id="login-token" class="w-full px-4 py-2 border rounded-lg uppercase tracking-widest font-bold text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Kosongkan jika ke Dashboard...">
                 </div>
                 <div class="text-right mb-6">
                     <button type="button" onclick="showForgotPasswordModal()" class="text-xs text-blue-600 hover:underline font-semibold">Lupa Password?</button>
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <!-- 1B. HALAMAN REGISTER / BUAT AKUN SISWA -->
+    <!-- 1B. HALAMAN REGISTER / BUAT AKUN SISWA (Dengan Nama Sekolah Opsional - Req 3) -->
     <div id="view-register" class="hidden-view min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border-t-8 border-blue-600 my-8">
             <div class="text-center mb-6">
@@ -93,6 +93,12 @@
                     <input type="text" id="reg-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS Anda..." required>
                 </div>
                 
+                <!-- Nama Sekolah (Opsional - Req 3) -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Nama Sekolah <span class="text-xs font-normal text-gray-500">(Opsional)</span></label>
+                    <input type="text" id="reg-sekolah" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: SMA Negeri 1 Jakarta...">
+                </div>
+
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Jenjang Pendidikan</label>
                     <select id="reg-jenjang" onchange="populateClassOptions('reg-jenjang', 'reg-kelas')" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" required>
@@ -138,6 +144,7 @@
                     <div>
                         <h2 id="dash-nama" class="text-2xl font-bold text-gray-800">Nama Siswa</h2>
                         <p id="dash-info" class="text-gray-600 font-medium mt-1">NIS: - | Jenjang: - | Kelas: -</p>
+                        <p id="dash-sekolah" class="text-gray-500 text-sm mt-0.5"></p>
                     </div>
                 </div>
                 <button onclick="openEditProfileModal()" class="bg-yellow-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600 transition text-sm">
@@ -184,7 +191,7 @@
         </nav>
         
         <div class="container mx-auto p-6 max-w-7xl flex-1 flex flex-col md:flex-row gap-6">
-            <!-- Sidebar Kiri: Filter Dropdown (Req 1) -->
+            <!-- Sidebar Kiri: Filter Dropdown -->
             <div class="w-full md:w-1/4 bg-white p-4 rounded-lg shadow h-fit space-y-4">
                 <h3 class="font-bold text-gray-700 pb-2 border-b">📁 Filter Soal & Ujian</h3>
                 <div>
@@ -283,9 +290,11 @@
 
                     <div class="mb-3">
                         <label class="block text-gray-700 font-semibold text-sm mb-1">Pertanyaan / Soal</label>
-                        <!-- Fitur Matematika Lengkap (Req 3) -->
+                        <!-- Fitur Matematika Lengkap termasuk * (perkalian) dan ^ (pangkat) - Req 1 -->
                         <div class="flex flex-wrap gap-1 mb-2 bg-white p-2 border rounded text-xs items-center">
                             <span class="text-gray-500 font-bold mr-1">Simbol Matematika:</span>
+                            <button type="button" onclick="insertMathSymbol('*')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono font-bold text-blue-600" title="Perkalian (*)">* (×)</button>
+                            <button type="button" onclick="insertMathSymbol('^')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono font-bold text-blue-600" title="Pangkat (^)">^ (pangkat)</button>
                             <button type="button" onclick="insertMathSymbol('²')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">x²</button>
                             <button type="button" onclick="insertMathSymbol('³')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">x³</button>
                             <button type="button" onclick="insertMathSymbol('√')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">√</button>
@@ -304,7 +313,7 @@
                             <span class="text-gray-300 mx-1">|</span>
                             <button type="button" onclick="openTableBuilderModal()" class="px-2 py-1 bg-blue-50 text-blue-700 font-semibold hover:bg-blue-100 rounded">📊 Buat / Edit Tabel</button>
                         </div>
-                        <textarea id="math-question-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500 font-mono" placeholder="Ketik soal..." required></textarea>
+                        <textarea id="math-question-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500 font-mono" placeholder="Ketik soal (misal: 2 * x ^ 2 + 5 = 15) ..." required></textarea>
                         
                         <!-- Visual Table Preview Box -->
                         <div id="question-table-preview-wrapper" class="mt-2 hidden">
@@ -347,15 +356,17 @@
         </div>
     </div>
 
-    <!-- MODAL BUILDER TABEL 2x2 INTERAKTIF DENGAN FITUR MATEMATIKA LENGKAP (Req 2) -->
+    <!-- MODAL BUILDER TABEL 2x2 INTERAKTIF DENGAN FITUR MATEMATIKA LENGKAP -->
     <div id="modal-table-builder" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[60] p-4">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">📊 Buat / Edit Tabel Interaktif (Fitur Matematika Lengkap)</h3>
-            <p class="text-xs text-gray-600 mb-2">Tambah baris/kolom atau gunakan tombol simbol matematika untuk dimasukkan ke dalam sel tabel.</p>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">📊 Buat / Edit Tabel Interaktif (Fitur Matematika)</h3>
+            <p class="text-xs text-gray-600 mb-2">Tambah baris/kolom atau gunakan tombol simbol matematika (*, ^, dll) di dalam sel tabel.</p>
             
-            <!-- Toolbar Simbol Matematika untuk Tabel (Req 2) -->
+            <!-- Toolbar Simbol Matematika untuk Tabel -->
             <div class="flex flex-wrap gap-1 mb-2 bg-gray-50 p-2 border rounded text-xs items-center">
                 <span class="text-gray-500 font-bold mr-1">Simbol:</span>
+                <button type="button" onclick="insertTableSymbol('*')" class="px-2 py-1 bg-white hover:bg-gray-200 border rounded font-mono font-bold text-blue-600">*</button>
+                <button type="button" onclick="insertTableSymbol('^')" class="px-2 py-1 bg-white hover:bg-gray-200 border rounded font-mono font-bold text-blue-600">^</button>
                 <button type="button" onclick="insertTableSymbol('²')" class="px-2 py-1 bg-white hover:bg-gray-200 border rounded font-mono">x²</button>
                 <button type="button" onclick="insertTableSymbol('³')" class="px-2 py-1 bg-white hover:bg-gray-200 border rounded font-mono">x³</button>
                 <button type="button" onclick="insertTableSymbol('√')" class="px-2 py-1 bg-white hover:bg-gray-200 border rounded font-mono">√</button>
@@ -397,7 +408,7 @@
         </div>
     </div>
 
-    <!-- MODAL LIHAT HASIL UJIAN (Dengan Waktu Selesai & Download Excel) -->
+    <!-- MODAL LIHAT HASIL UJIAN -->
     <div id="modal-exam-results" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -421,14 +432,14 @@
                 <p class="mb-1"><strong>Mata Pelajaran :</strong> <span id="pre-exam-subject">-</span></p>
                 <p class="mb-1"><strong>Jumlah soal :</strong> <span id="pre-exam-total-soal">5</span> Soal</p>
                 <p class="mb-1"><strong>Durasi :</strong> <span id="pre-exam-duration">90 Menit</span></p>
-                <p><strong>Kesempatan :</strong> 1 kali</p>
+                <p><strong>Kesempatan :</strong> 1 kali (Auto-terkunci setelah selesai)</p>
             </div>
             <div class="bg-red-50 text-red-700 p-4 rounded mb-8 text-sm border-l-4 border-red-500">
                 <p class="font-bold mb-2">Perhatian:</p>
                 <ul class="list-disc pl-5 space-y-1">
                     <li>Pastikan koneksi internet stabil.</li>
                     <li>Ujian tidak dapat diulang setelah dikumpulkan.</li>
-                    <li>Waktu akan berjalan setelah tombol mulai ditekan.</li>
+                    <li>Jika tidak sengaja keluar/tertutup, Anda dapat melanjutkan dengan login kembali menggunakan NIS & Password yang sama.</li>
                 </ul>
             </div>
             <div class="flex justify-between">
@@ -500,7 +511,7 @@
                 <div class="flex justify-between bg-red-50 text-red-700 p-3 rounded mb-4 border border-red-200">
                     <span class="font-semibold">Belum dijawab:</span> <span id="count-unanswered" class="font-bold">5 soal</span>
                 </div>
-                <p class="text-center font-bold text-gray-700 mt-4">Apakah Anda yakin ingin mengakhiri ujian?</p>
+                <p class="text-center font-bold text-gray-700 mt-4">Apakah Anda yakin ingin mengakhiri ujian? (Soal akan otomatis terkunci)</p>
             </div>
             <div class="flex justify-end gap-3">
                 <button onclick="closeSubmitModal()" class="bg-gray-200 px-4 py-2 rounded font-bold hover:bg-gray-300 text-gray-700 w-1/2 transition">KEMBALI</button>
@@ -527,12 +538,12 @@
         </div>
     </div>
 
-    <!-- 5. HALAMAN HASIL UJIAN (Siswa bisa langsung melihat nilai - Req 5) -->
+    <!-- 5. HALAMAN HASIL UJIAN -->
     <div id="view-result" class="hidden-view min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg text-center border-t-8 border-green-500 my-8">
             <div class="text-6xl mb-4 text-green-500">✅</div>
             <h2 class="text-3xl font-bold mb-2 text-gray-800">UJIAN SELESAI</h2>
-            <p class="text-gray-600 mb-6">Jawaban Anda berhasil disimpan di sistem.</p>
+            <p class="text-gray-600 mb-6">Jawaban Anda berhasil disimpan dan otomatis terkunci.</p>
             <div class="grid grid-cols-2 gap-4 text-left bg-gray-50 p-4 rounded-lg mb-6 border">
                 <div class="font-semibold text-gray-600">Total Soal</div>
                 <div class="font-bold text-right text-gray-800" id="res-total">5</div>
@@ -545,15 +556,15 @@
                 <p class="text-sm text-blue-600 font-bold uppercase tracking-widest mb-1">NILAI ANDA</p>
                 <h1 class="text-6xl font-black text-blue-700" id="res-score">100</h1>
             </div>
-            <button onclick="switchView('view-dashboard')" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 w-full transition shadow">KEMBALI KE DASHBOARD</button>
+            <button onclick="switchView('view-dashboard'); loadStudentDashboard();" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 w-full transition shadow">KEMBALI KE DASHBOARD</button>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
         let usersDB = [
-            { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123" },
-            { nama: "Ahmad Budi", nis: "1001", role: "siswa", jenjang: "SMA / SMK", kelas: "11", password: "password" }
+            { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123", sekolah: "SMAN 1 Teladan" },
+            { nama: "Ahmad Budi", nis: "1001", role: "siswa", jenjang: "SMA / SMK", kelas: "11", password: "password", sekolah: "SMKN 2 Jakarta" }
         ];
 
         let examResultsDB = [
@@ -582,7 +593,7 @@
                     { 
                         id: 1, 
                         type: "pg",
-                        text: "Nilai dari 2x + 3 = 11 adalah ....", 
+                        text: "Nilai dari 2 * x ^ 2 + 3 = 11 adalah ....", 
                         table: null,
                         options: [
                             { text: "2", image: null }, 
@@ -613,7 +624,7 @@
         let tempOptionImages = {};
         let tempQuestionTable = null;
         let activeResultExamId = null;
-        let activeTableCell = null; // Untuk fokus sel tabel saat insert simbol matematika
+        let activeTableCell = null;
 
         function populateClassOptions(jenjangSelectId, kelasSelectId, selectedValue = '') {
             const jenjang = document.getElementById(jenjangSelectId).value;
@@ -634,7 +645,6 @@
             });
         }
 
-        // --- FILTER KELAS & JENJANG DROPDOWN UNTUK GURU (Req 1) ---
         function updateTeacherFilterKelasDropdown() {
             const jenjang = document.getElementById('filter-jenjang-dropdown').value;
             const kelasSelect = document.getElementById('filter-kelas-dropdown');
@@ -753,6 +763,7 @@
             e.preventDefault();
             const inputNama = document.getElementById('reg-nama').value;
             const inputNis = document.getElementById('reg-nis').value.trim();
+            const inputSekolah = document.getElementById('reg-sekolah').value.trim(); // Opsional - Req 3
             const inputJenjang = document.getElementById('reg-jenjang').value;
             const inputKelas = document.getElementById('reg-kelas').value;
             const inputPassword = document.getElementById('reg-password').value;
@@ -767,7 +778,15 @@
                 return;
             }
 
-            usersDB.push({ nama: inputNama, nis: inputNis, jenjang: inputJenjang, kelas: inputKelas, password: inputPassword, role: "siswa" });
+            usersDB.push({ 
+                nama: inputNama, 
+                nis: inputNis, 
+                sekolah: inputSekolah || '-', 
+                jenjang: inputJenjang, 
+                kelas: inputKelas, 
+                password: inputPassword, 
+                role: "siswa" 
+            });
             alert(`Akun berhasil dibuat!\nSilakan login menggunakan NIS: ${inputNis}`);
             e.target.reset(); 
             document.getElementById('login-nis').value = inputNis;
@@ -775,6 +794,7 @@
             switchLoginTab('siswa'); 
         }
 
+        // --- HANDLE LOGIN DENGAN / TANPA TOKEN (Req 2) ---
         function handleLogin(e, role) {
             e.preventDefault();
             if (role === 'siswa') {
@@ -784,20 +804,35 @@
 
                 const userFound = usersDB.find(user => user.nis === inputNis && user.password === inputPass && user.role === 'siswa');
                 if (userFound) {
-                    const validExam = examsDB.find(ex => ex.token === inputToken);
-                    if (!validExam) {
-                        alert("Token Ujian Salah atau Tidak Aktif!");
-                        return;
-                    }
-
-                    if (!validExam.isStarted) {
-                        alert("Ujian belum dimulai oleh Guru/Admin. Silakan tunggu hingga sesi ujian dibuka!");
-                        return;
-                    }
-
                     currentUser = userFound;
-                    loadStudentDashboard();
-                    switchView('view-dashboard');
+                    
+                    if (inputToken) {
+                        // Siswa mengisi token -> langsung mulai ujian (jika belum selesai & ujian aktif)
+                        const validExam = examsDB.find(ex => ex.token === inputToken);
+                        if (!validExam) {
+                            alert("Token Ujian Salah atau Tidak Aktif!");
+                            return;
+                        }
+
+                        if (!validExam.isStarted) {
+                            alert("Ujian belum dimulai oleh Guru/Admin. Silakan tunggu hingga sesi ujian dibuka!");
+                            return;
+                        }
+
+                        // Cek apakah sudah dikerjakan/terkunci (Req 4)
+                        if (examResultsDB.some(r => r.examId === validExam.id && r.nis === currentUser.nis)) {
+                            alert("Ujian ini sudah Anda selesaikan sebelumnya dan otomatis terkunci. Anda akan diarahkan ke Dashboard.");
+                            loadStudentDashboard();
+                            switchView('view-dashboard');
+                            return;
+                        }
+
+                        prepareExam(validExam.id);
+                    } else {
+                        // Tanpa token -> ke dashboard soal dulu (Req 2)
+                        loadStudentDashboard();
+                        switchView('view-dashboard');
+                    }
                 } else {
                     alert("Gagal Login: NIS atau Password Siswa salah!");
                 }
@@ -820,6 +855,7 @@
         function loadStudentDashboard() {
             document.getElementById('dash-nama').innerText = currentUser.nama;
             document.getElementById('dash-info').innerText = `NIS: ${currentUser.nis} | Jenjang: ${currentUser.jenjang} | Kelas: Kelas ${currentUser.kelas}`;
+            document.getElementById('dash-sekolah').innerText = currentUser.sekolah && currentUser.sekolah !== '-' ? `Sekolah: ${currentUser.sekolah}` : '';
             document.getElementById('dash-avatar').innerText = currentUser.nama.charAt(0).toUpperCase();
 
             const container = document.getElementById('exam-list-container');
@@ -833,12 +869,24 @@
             }
 
             matchedExams.forEach(exam => {
-                const statusBadge = exam.isStarted 
-                    ? `<span class="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full font-bold">🟢 Ujian Berjalan</span>`
-                    : `<span class="px-3 py-1 bg-red-100 text-red-800 text-xs rounded-full font-bold">🔴 Ujian Berhenti</span>`;
+                const hasFinished = examResultsDB.some(r => r.examId === exam.id && r.nis === currentUser.nis);
+                let actionBtn = '';
+
+                if (hasFinished) {
+                    const resultRecord = examResultsDB.find(r => r.examId === exam.id && r.nis === currentUser.nis);
+                    actionBtn = `<span class="px-4 py-2 bg-gray-200 text-gray-700 font-bold rounded-lg text-sm">🔒 Sudah Dikerjakan (Nilai: ${resultRecord.nilai})</span>`;
+                } else if (!exam.isStarted) {
+                    actionBtn = `<button disabled class="mt-4 md:mt-0 bg-gray-300 text-gray-500 px-6 py-2 rounded font-bold cursor-not-allowed">BELUM DIMULAI</button>`;
+                } else {
+                    actionBtn = `<button onclick="prepareExam(${exam.id})" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition">MULAI UJIAN</button>`;
+                }
+
+                const statusBadge = hasFinished
+                    ? `<span class="px-3 py-1 bg-gray-200 text-gray-800 text-xs rounded-full font-bold">🔒 Terkunci</span>`
+                    : (exam.isStarted ? `<span class="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full font-bold">🟢 Ujian Berjalan</span>` : `<span class="px-3 py-1 bg-red-100 text-red-800 text-xs rounded-full font-bold">🔴 Ujian Berhenti</span>`);
 
                 const card = `
-                    <div class="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center border-l-4 border-blue-500">
+                    <div class="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center border-l-4 ${hasFinished ? 'border-gray-400' : 'border-blue-500'}">
                         <div>
                             <h4 class="text-lg font-bold text-gray-800">${exam.title}</h4>
                             <p class="text-gray-600 text-sm mt-1">${exam.jenjang} - Kelas ${exam.kelas} | ${exam.questions.length} Soal | Durasi ${exam.duration}</p>
@@ -847,14 +895,14 @@
                                 <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-mono font-bold">Token: ${exam.token}</span>
                             </div>
                         </div>
-                        <button onclick="prepareExam(${exam.id})" ${!exam.isStarted ? 'disabled class="mt-4 md:mt-0 bg-gray-300 text-gray-500 px-6 py-2 rounded font-bold cursor-not-allowed"' : 'class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition"'}>MULAI UJIAN</button>
+                        ${actionBtn}
                     </div>
                 `;
                 container.innerHTML += card;
             });
         }
 
-        // --- DASHBOARD GURU & FILTER DROPDOWN (Req 1) ---
+        // --- DASHBOARD GURU & FILTER DROPDOWN ---
         function loadTeacherDashboard() {
             document.getElementById('guru-nama').innerText = currentUser.nama;
             updateTeacherFilterKelasDropdown();
@@ -935,7 +983,7 @@
             }
         }
 
-        // --- LIHAT HASIL DENGAN WAKTU SELESAI & DOWNLOAD EXCEL (Req 4) ---
+        // --- LIHAT HASIL DENGAN WAKTU SELESAI ---
         function openExamResults(examId) {
             activeResultExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -1009,7 +1057,7 @@
             }
         }
 
-        // --- KELOLA SOAL (Fitur Matematika Lengkap di Soal & Tabel) ---
+        // --- KELOLA SOAL (Fitur Matematika Lengkap dengan * dan ^ - Req 1) ---
         function openManageSoalModal(examId) {
             activeManagingExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -1053,7 +1101,7 @@
                         <div class="border p-3 rounded bg-white space-y-2 mb-2">
                             <div class="flex gap-2 items-center">
                                 <span class="font-bold text-sm w-6">${labels[i]}.</span>
-                                <input type="text" id="opt-text-${i}" value="${optVal}" class="flex-1 px-3 py-1.5 border rounded text-sm font-mono" placeholder="Teks Pilihan ${labels[i]}..." required>
+                                <input type="text" id="opt-text-${i}" value="${optVal}" class="flex-1 px-3 py-1.5 border rounded text-sm font-mono" placeholder="Teks Pilihan ${labels[i]} (mendukung *, ^, dll)..." required>
                             </div>
                             <div class="flex items-center gap-2 pl-8">
                                 <label class="text-xs text-gray-600">Upload Gambar Opsi:</label>
@@ -1173,7 +1221,7 @@
             textarea.selectionStart = textarea.selectionEnd = start + symbol.length;
         }
 
-        // --- TABEL VISUAL BUILDER & EDITOR DENGAN FITUR MATEMATIKA LENGKAP (Req 2) ---
+        // --- TABEL VISUAL BUILDER & EDITOR DENGAN FITUR MATEMATIKA ---
         function setActiveTableCell(el) {
             activeTableCell = el;
         }
@@ -1187,7 +1235,6 @@
                 activeTableCell.focus();
                 activeTableCell.selectionStart = activeTableCell.selectionEnd = start + symbol.length;
             } else {
-                // Default ke sel pertama jika belum ada yang difokuskan
                 const table = document.getElementById('interactive-build-table');
                 if (table.rows.length > 0 && table.rows[0].cells.length > 0) {
                     const firstInput = table.rows[0].cells[0].querySelector('input');
@@ -1513,13 +1560,22 @@
             document.getElementById('btn-cancel-edit').classList.add('hidden');
         }
 
-        // --- UJIAN SISWA ---
+        // --- UJIAN SISWA & LANJUTKAN UJIAN SETELAH KELUAR (Req 4 & 5) ---
         function prepareExam(examId) {
             const exam = examsDB.find(ex => ex.id === examId);
             if (!exam || exam.questions.length === 0) {
                 alert("Maaf, ujian ini belum memiliki soal.");
                 return;
             }
+
+            // Cek apakah sudah selesai/terkunci (Req 4)
+            if (examResultsDB.some(r => r.examId === examId && r.nis === currentUser.nis)) {
+                alert("Ujian ini sudah selesai dan otomatis terkunci untuk Anda.");
+                loadStudentDashboard();
+                switchView('view-dashboard');
+                return;
+            }
+
             activeExam = exam;
             document.getElementById('pre-exam-title').innerText = exam.title.toUpperCase();
             document.getElementById('pre-exam-subject').innerText = exam.title;
@@ -1532,12 +1588,37 @@
         function logout() {
             currentUser = null; 
             document.getElementById('login-password').value = ''; 
-            document.getElementById('login-token').value = 'MTH90';
+            document.getElementById('login-token').value = '';
             switchView('view-login');
         }
 
         function startExam() {
             switchView('view-exam');
+
+            // Cek apakah ada sesi tersimpan di localStorage untuk melanjutkan ujian jika tidak sengaja keluar (Req 5)
+            const sessionKey = `cbt_session_${currentUser.nis}_${activeExam.id}`;
+            const savedSession = localStorage.getItem(sessionKey);
+
+            if (savedSession) {
+                try {
+                    const sessionData = JSON.parse(savedSession);
+                    studentAnswers = sessionData.studentAnswers || {};
+                    markedDoubt = sessionData.markedDoubt || {};
+                    timeLeft = sessionData.timeLeft || (90 * 60);
+                } catch(e) {
+                    studentAnswers = {};
+                    markedDoubt = {};
+                    timeLeft = 90 * 60;
+                }
+            } else {
+                studentAnswers = {};
+                markedDoubt = {};
+                let durationMinutes = 90;
+                if (activeExam.duration.includes("60")) durationMinutes = 60;
+                else if (activeExam.duration.includes("120")) durationMinutes = 120;
+                timeLeft = durationMinutes * 60;
+            }
+
             generateNumberGrid();
             loadQuestion(0);
             startTimer();
@@ -1668,18 +1749,32 @@
                     studentAnswers[qIndex].push(optIndex);
                 }
             }
+            saveSessionToLocalStorage();
             loadQuestion(qIndex); 
         }
 
         function saveBSAnswer(qIndex, stmtIndex, val) {
             if (!Array.isArray(studentAnswers[qIndex])) studentAnswers[qIndex] = [];
             studentAnswers[qIndex][stmtIndex] = val;
+            saveSessionToLocalStorage();
             updateGridColors();
         }
 
         function toggleDoubt() {
             markedDoubt[currentQuestionIndex] = document.getElementById('mark-doubt').checked;
+            saveSessionToLocalStorage();
             updateGridColors();
+        }
+
+        function saveSessionToLocalStorage() {
+            if (!currentUser || !activeExam) return;
+            const sessionKey = `cbt_session_${currentUser.nis}_${activeExam.id}`;
+            const sessionData = {
+                studentAnswers: studentAnswers,
+                markedDoubt: markedDoubt,
+                timeLeft: timeLeft
+            };
+            localStorage.setItem(sessionKey, JSON.stringify(sessionData));
         }
 
         function updateGridColors() {
@@ -1707,16 +1802,10 @@
         }
 
         function startTimer() {
-            studentAnswers = {};
-            markedDoubt = {};
-            
-            let durationMinutes = 90;
-            if (activeExam.duration.includes("60")) durationMinutes = 60;
-            else if (activeExam.duration.includes("120")) durationMinutes = 120;
-            timeLeft = durationMinutes * 60;
-
             timerInterval = setInterval(() => {
                 timeLeft--;
+                saveSessionToLocalStorage();
+
                 const h = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
                 const m = Math.floor((timeLeft % 3600) / 60).toString().padStart(2, '0');
                 const s = (timeLeft % 60).toString().padStart(2, '0');
@@ -1750,13 +1839,12 @@
             document.getElementById('submit-modal').classList.add('hidden-view');
         }
 
-        // --- RUMUS NILAI MENGERJAKAN SOAL (Req 6) ---
+        // --- RUMUS NILAI & AUTO-TERKUNCI SETELAH SELESAI (Req 4) ---
         function finishExam(isAutoSubmit = false) {
             clearInterval(timerInterval);
             closeSubmitModal();
             
             let totalEarnedPoints = 0;
-            const maxPointsPerQuestion = 10;
             const totalQuestions = activeExam.questions.length;
 
             activeExam.questions.forEach((q, i) => {
@@ -1770,9 +1858,8 @@
                         const sortedStud = [...studAns].sort();
                         const sortedCorr = [...q.correct].sort();
                         if (JSON.stringify(sortedStud) === JSON.stringify(sortedCorr)) {
-                            totalEarnedPoints += 10; // Benar semua
+                            totalEarnedPoints += 10; 
                         } else {
-                            // Rumus PGM: 10 * ((jumlah opsi yang salah) / (jumlah opsi yang benar))
                             let correctSet = new Set(q.correct);
                             let studSet = new Set(studAns);
                             let wrongCount = 0;
@@ -1783,7 +1870,6 @@
                             let partialScore = 10 * (wrongCount / correctCount);
                             if (partialScore > 10) partialScore = 10;
                             if (isNaN(partialScore) || partialScore < 0) partialScore = 0;
-                            // Sesuai aturan: jika salah semua = 0
                             if (wrongCount >= (q.options.length)) partialScore = 0;
                             totalEarnedPoints += partialScore;
                         }
@@ -1801,9 +1887,8 @@
                         if (allCorrect) {
                             totalEarnedPoints += 10;
                         } else if (wrongStatements === q.correct.length) {
-                            totalEarnedPoints += 0; // Salah semua
+                            totalEarnedPoints += 0; 
                         } else {
-                            // Rumus BS: 10 * ((jumlah opsi yang salah) / (jumlah opsi yang benar))
                             let correctStatements = q.correct.length - wrongStatements;
                             let partialScore = 10 * (wrongStatements / correctStatements);
                             if (partialScore > 10) partialScore = 10;
@@ -1814,7 +1899,6 @@
                 }
             });
 
-            // Konversi total poin ke skala nilai 100
             const maxPossibleTotalPoints = totalQuestions * 10;
             const finalScore = Math.round((totalEarnedPoints / maxPossibleTotalPoints) * 100);
 
@@ -1825,6 +1909,7 @@
 
             const waktuSelesaiStr = new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'medium' });
 
+            // Simpan hasil agar otomatis terkunci (Req 4)
             examResultsDB.push({
                 examId: activeExam.id,
                 nis: currentUser.nis,
@@ -1832,6 +1917,9 @@
                 nilai: finalScore,
                 waktuSelesai: waktuSelesaiStr
             });
+
+            // Hapus sesi aktif dari localStorage karena sudah selesai
+            localStorage.removeItem(`cbt_session_${currentUser.nis}_${activeExam.id}`);
 
             document.getElementById('res-total').innerText = totalQuestions;
             document.getElementById('res-answered').innerText = answeredCount;
