@@ -43,7 +43,7 @@
                     <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required>
                 </div>
                 <div class="text-right mb-6">
-                    <button type="button" onclick="showForgotPasswordModal('siswa')" class="text-xs text-blue-600 hover:underline font-semibold">Lupa Password?</button>
+                    <button type="button" onclick="showForgotPasswordModal()" class="text-xs text-blue-600 hover:underline font-semibold">Lupa Password?</button>
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">LOGIN SISWA</button>
                 
@@ -53,18 +53,15 @@
                 </div>
             </form>
 
-            <!-- Form Login Guru -->
+            <!-- Form Login Guru (Dilindungi & Tanpa Lupa Password) -->
             <form id="form-login-guru" class="hidden" onsubmit="handleLogin(event, 'guru')">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Username / NIP</label>
                     <input type="text" id="login-nip-guru" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan NIP Guru..." required value="12491">
                 </div>
-                <div class="mb-2">
+                <div class="mb-6">
                     <label class="block text-gray-700 font-semibold mb-2">Password</label>
                     <input type="password" id="login-pass-guru" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan Password..." required value="Mashari123">
-                </div>
-                <div class="text-right mb-6">
-                    <button type="button" onclick="showForgotPasswordModal('guru')" class="text-xs text-green-600 hover:underline font-semibold">Lupa Password?</button>
                 </div>
                 <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition">LOGIN GURU</button>
             </form>
@@ -126,7 +123,6 @@
             <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded text-sm font-bold hover:bg-red-600">Logout</button>
         </nav>
         <div class="container mx-auto p-6 max-w-4xl">
-            <!-- Profil Singkat Dinamis dengan Tombol Edit Jenjang/Kelas -->
             <div class="bg-white p-6 rounded-lg shadow mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="flex items-center gap-6">
                     <div id="dash-avatar" class="w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-600 font-bold text-3xl uppercase shrink-0">A</div>
@@ -145,7 +141,7 @@
         </div>
     </div>
 
-    <!-- MODAL EDIT PROFIL SISWA (JENJANG & KELAS) -->
+    <!-- MODAL EDIT PROFIL SISWA -->
     <div id="edit-profile-modal" class="hidden-view fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-t-8 border-yellow-500">
             <h2 class="text-2xl font-bold mb-2 text-gray-800">Edit Jenjang & Kelas</h2>
@@ -177,45 +173,133 @@
             <h1 class="text-xl font-bold">Dashboard Guru / Admin</h1>
             <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded text-sm font-bold hover:bg-red-600">Logout</button>
         </nav>
-        <div class="container mx-auto p-6 max-w-4xl">
-            <!-- Profil Singkat Guru -->
+        <div class="container mx-auto p-6 max-w-5xl">
             <div class="bg-white p-6 rounded-lg shadow mb-6 flex items-center gap-6">
                 <div class="w-20 h-20 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center text-green-600 font-bold text-3xl uppercase shrink-0">G</div>
                 <div>
                     <h2 id="guru-nama" class="text-2xl font-bold text-gray-800">Admin / Guru Utama</h2>
-                    <p class="text-gray-600 font-medium mt-1">NIP: 12491 | Hak Akses: Penuh (Guru & Admin)</p>
+                    <p class="text-gray-600 font-medium mt-1">NIP: 12491 | Hak Akses: Penuh (Dilindungi Sistem)</p>
                 </div>
             </div>
 
-            <!-- Form Tambah Ujian Baru -->
+            <!-- Form Tambah Ujian Baru dengan Target Jenjang & Kelas Terpisah -->
             <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b">Tambah Ujian Baru</h3>
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b">Buat Ujian Baru</h3>
                 <form onsubmit="handleAddExam(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 font-semibold mb-1 text-sm">Nama/Judul Ujian</label>
-                        <input type="text" id="new-exam-title" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" placeholder="Contoh: PAS Fisika..." required>
+                        <input type="text" id="new-exam-title" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" placeholder="Contoh: PAS Matematika Lanjut..." required>
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Target Kelas</label>
-                        <input type="text" id="new-exam-kelas" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" placeholder="Contoh: XI TKJ atau 6..." required>
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Jenjang Pendidikan</label>
+                        <select id="new-exam-jenjang" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500 bg-white" required>
+                            <option value="" disabled selected>Pilih Jenjang...</option>
+                            <option value="SD / MI">SD / MI</option>
+                            <option value="SMP / MTs">SMP / MTs</option>
+                            <option value="SMA / SMK">SMA / SMK</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Kelas</label>
+                        <input type="text" id="new-exam-kelas" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" placeholder="Contoh: XI TKJ, 6, IX..." required>
                     </div>
                     <div>
                         <label class="block text-gray-700 font-semibold mb-1 text-sm">Durasi</label>
                         <input type="text" id="new-exam-durasi" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" value="90 Menit" required>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Jumlah Soal</label>
-                        <input type="number" id="new-exam-soal" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" value="5" required>
-                    </div>
                     <div class="md:col-span-2">
-                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded-lg hover:bg-green-700 transition text-sm">TAMBAH UJIAN</button>
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded-lg hover:bg-green-700 transition text-sm">BUAT UJIAN & KELOLA SOAL</button>
                     </div>
                 </form>
             </div>
 
             <!-- Daftar Ujian Aktif Saat Ini -->
-            <h3 class="text-xl font-bold mb-4">Kelola Daftar Ujian</h3>
+            <h3 class="text-xl font-bold mb-4">Kelola Daftar Ujian & Bank Soal</h3>
             <div id="guru-exam-list" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- MODAL KELOLA SOAL UJIAN (Tambah, Edit, Review, Hapus) -->
+    <div id="modal-manage-soal" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-3xl w-full my-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h3 id="manage-exam-title" class="text-xl font-bold text-gray-800">Kelola Soal Ujian</h3>
+                <button onclick="closeManageSoalModal()" class="text-gray-500 hover:text-red-600 font-bold text-xl">✕</button>
+            </div>
+
+            <!-- Form Builder Soal Matematika -->
+            <div class="bg-gray-50 p-4 rounded-lg border mb-6">
+                <h4 id="form-soal-title" class="font-bold text-green-700 mb-2">➕ Tambah Soal Matematika Baru</h4>
+                <form onsubmit="handleSaveQuestion(event)">
+                    <input type="hidden" id="edit-question-index" value="-1">
+                    
+                    <div class="mb-3">
+                        <label class="block text-gray-700 font-semibold text-sm mb-1">Pertanyaan / Soal Matematika</label>
+                        <!-- Tombol Bantuan Simbol Matematika -->
+                        <div class="flex flex-wrap gap-1 mb-2 bg-white p-2 border rounded text-xs">
+                            <span class="text-gray-500 font-bold mr-1 self-center">Simbol Cepat:</span>
+                            <button type="button" onclick="insertMathSymbol('²')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">x²</button>
+                            <button type="button" onclick="insertMathSymbol('³')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">x³</button>
+                            <button type="button" onclick="insertMathSymbol('√')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">√</button>
+                            <button type="button" onclick="insertMathSymbol('π')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">π</button>
+                            <button type="button" onclick="insertMathSymbol('÷')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">÷</button>
+                            <button type="button" onclick="insertMathSymbol('×')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">×</button>
+                            <button type="button" onclick="insertMathSymbol('±')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">±</button>
+                            <button type="button" onclick="insertMathSymbol('≤')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">≤</button>
+                            <button type="button" onclick="insertMathSymbol('≥')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">≥</button>
+                            <button type="button" onclick="insertMathSymbol('≠')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">≠</button>
+                            <button type="button" onclick="insertMathSymbol('∫')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">∫</button>
+                            <button type="button" onclick="insertMathSymbol(' ⁄ ')" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded font-mono">a/b</button>
+                        </div>
+                        <textarea id="math-question-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500 font-mono" placeholder="Ketik soal matematika, contoh: Tentukan akar dari persamaan x² + 5x + 6 = 0 ..." required></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan A</label>
+                            <input type="text" id="opt-a" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi A..." required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan B</label>
+                            <input type="text" id="opt-b" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi B..." required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan C</label>
+                            <input type="text" id="opt-c" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi C..." required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan D</label>
+                            <input type="text" id="opt-d" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi D..." required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-700 text-xs font-semibold mb-1">Pilihan E</label>
+                            <input type="text" id="opt-e" class="w-full px-3 py-1.5 border rounded text-sm font-mono" placeholder="Opsi E..." required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold text-sm mb-1">Kunci Jawaban Benar</label>
+                        <select id="correct-answer" class="w-full px-3 py-2 border rounded text-sm bg-white font-bold text-green-700" required>
+                            <option value="0">A</option>
+                            <option value="1">B</option>
+                            <option value="2">C</option>
+                            <option value="3">D</option>
+                            <option value="4">E</option>
+                        </select>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-save-question" class="flex-1 bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition text-sm">Simpan Soal</button>
+                        <button type="button" id="btn-cancel-edit" onclick="resetQuestionForm()" class="hidden bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-400 transition text-sm">Batal Edit</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Review / Daftar Soal Ujian -->
+            <h4 class="font-bold text-gray-800 mb-3">📋 Review Soal Dalam Ujian Ini (<span id="question-count-badge">0</span> Soal)</h4>
+            <div id="review-questions-container" class="space-y-3">
+                <!-- List soal akan dimuat otomatis -->
+            </div>
         </div>
     </div>
 
@@ -225,8 +309,8 @@
             <h2 id="pre-exam-title" class="text-2xl font-bold text-center mb-6 uppercase">PENILAIAN AKHIR SEMESTER</h2>
             <div class="bg-gray-50 p-4 rounded mb-6 text-sm border">
                 <p class="mb-1"><strong>Mata Pelajaran :</strong> <span id="pre-exam-subject">-</span></p>
-                <p class="mb-1"><strong>Jumlah soal :</strong> 5 Soal (Demo)</p>
-                <p class="mb-1"><strong>Durasi :</strong> 90 Menit</p>
+                <p class="mb-1"><strong>Jumlah soal :</strong> <span id="pre-exam-total-soal">5</span> Soal</p>
+                <p class="mb-1"><strong>Durasi :</strong> <span id="pre-exam-duration">90 Menit</span></p>
                 <p><strong>Kesempatan :</strong> 1 kali</p>
             </div>
             <div class="bg-red-50 text-red-700 p-4 rounded mb-8 text-sm border-l-4 border-red-500">
@@ -262,7 +346,7 @@
                         <span class="font-semibold text-sm">Ragu-ragu</span>
                     </label>
                 </div>
-                <div class="text-lg mb-6 font-medium text-gray-800" id="question-text"></div>
+                <div class="text-lg mb-6 font-medium text-gray-800 whitespace-pre-line font-mono" id="question-text"></div>
                 <div class="space-y-3" id="options-container"></div>
                 <div class="mt-8 flex justify-between items-center pt-4 border-t">
                     <button onclick="prevQuestion()" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold text-gray-700 transition" id="btn-prev">← Sebelumnya</button>
@@ -309,15 +393,15 @@
         </div>
     </div>
 
-    <!-- MODAL LUPA PASSWORD -->
+    <!-- MODAL LUPA PASSWORD (Hanya untuk Siswa, Guru Dilindungi) -->
     <div id="forgot-modal" class="hidden-view fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-t-8 border-yellow-500">
-            <h2 class="text-2xl font-bold mb-2 text-gray-800">LUPA PASSWORD</h2>
-            <p id="forgot-desc" class="text-sm text-gray-600 mb-4">Masukkan NIS / NIP Anda untuk memulihkan sandi.</p>
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">LUPA PASSWORD SISWA</h2>
+            <p class="text-sm text-gray-600 mb-4">Masukkan NIS Anda untuk memulihkan sandi.</p>
             <form onsubmit="handleForgotPassword(event)">
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Username / NIS / NIP</label>
-                    <input type="text" id="forgot-username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Masukkan ID Anda..." required>
+                    <label class="block text-gray-700 font-semibold mb-2">Username / NIS</label>
+                    <input type="text" id="forgot-username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Masukkan NIS Anda..." required>
                 </div>
                 <div class="flex justify-end gap-3">
                     <button type="button" onclick="closeForgotPasswordModal()" class="bg-gray-200 px-4 py-2 rounded font-bold hover:bg-gray-300 text-gray-700 w-1/2 transition">BATAL</button>
@@ -356,24 +440,41 @@
             { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123" }
         ];
 
+        // Database Ujian dengan soal matematika di dalamnya
         let examsDB = [
-            { id: 1, title: "PAS Matematika", targetKelas: ["XI TKJ", "11", "XI"], duration: "90 Menit", totalSoal: 5 },
-            { id: 2, title: "PAS Bahasa Indonesia", targetKelas: ["XI TKJ", "11", "XI"], duration: "90 Menit", totalSoal: 5 },
-            { id: 3, title: "PAS IPA Terpadu", targetKelas: ["6", "6A", "VI"], duration: "90 Menit", totalSoal: 5 },
-            { id: 4, title: "PAS IPS", targetKelas: ["IX", "IX B", "9"], duration: "90 Menit", totalSoal: 5 }
+            { 
+                id: 1, 
+                title: "PAS Matematika", 
+                jenjang: "SMA / SMK", 
+                kelas: "XI TKJ", 
+                duration: "90 Menit", 
+                questions: [
+                    { id: 1, text: "Nilai dari 2x + 3 = 11 adalah ....", options: ["A. 2", "B. 3", "C. 4", "D. 5", "E. 6"], correct: 2 },
+                    { id: 2, text: "Tentukan hasil dari f(x) = 3x² - 2x + 1 jika x = 2", options: ["A. 7", "B. 9", "C. 11", "D. 13", "E. 15"], correct: 1 },
+                    { id: 3, text: "Hasil dari √144 + 3³ adalah ....", options: ["A. 35", "B. 39", "C. 41", "D. 45", "E. 48"], correct: 1 },
+                    { id: 4, text: "Luas lingkaran dengan jari-jari r = 7 cm (π = 22⁄7) adalah ....", options: ["A. 154 cm²", "B. 308 cm²", "C. 44 cm²", "D. 616 cm²", "E. 88 cm²"], correct: 0 },
+                    { id: 5, text: "Bentuk sederhana dari (2x³) × (4x²) adalah ....", options: ["A. 6x⁵", "B. 8x⁶", "C. 8x⁵", "D. 6x⁶", "E. 8x²"], correct: 2 }
+                ] 
+            },
+            { 
+                id: 2, 
+                title: "PAS Matematika Dasar", 
+                jenjang: "SD / MI", 
+                kelas: "6", 
+                duration: "90 Menit", 
+                questions: [
+                    { id: 1, text: "Hasil dari 125 + 25 × 4 adalah ....", options: ["A. 600", "B. 225", "C. 500", "D. 150", "E. 300"], correct: 1 },
+                    { id: 2, text: "KPK dari 12 dan 18 adalah ....", options: ["A. 24", "B. 36", "C. 48", "D. 72", "E. 6"], correct: 1 },
+                    { id: 3, text: "3⁄4 bagian dari 100 kg adalah ....", options: ["A. 25 kg", "B. 50 kg", "C. 75 kg", "D. 80 kg", "E. 90 kg"], correct: 2 },
+                    { id: 4, text: "Keliling persegi yang memiliki sisi 15 cm adalah ....", options: ["A. 30 cm", "B. 45 cm", "C. 60 cm", "D. 225 cm", "E. 75 cm"], correct: 2 },
+                    { id: 5, text: "Hasil dari 5² + √100 adalah ....", options: ["A. 35", "B. 25", "C. 30", "D. 40", "E. 15"], correct: 0 }
+                ] 
+            }
         ];
 
         let currentUser = null;
         let activeExam = null;
-        let forgotRoleType = 'siswa';
-
-        const questions = [
-            { id: 1, text: "Nilai dari 2x + 3 = 11 adalah ....", options: ["A. 2", "B. 3", "C. 4", "D. 5", "E. 6"], correct: 2 },
-            { id: 2, text: "Bentuk sederhana dari 5x - 3x + 2 adalah ....", options: ["A. 2x + 2", "B. 8x + 2", "C. 2x - 2", "D. 2", "E. 8x"], correct: 0 },
-            { id: 3, text: "Hasil dari 3² + 4² adalah ....", options: ["A. 14", "B. 25", "C. 49", "D. 7", "E. 12"], correct: 1 },
-            { id: 4, text: "Jika f(x) = 2x + 1, maka f(3) = ....", options: ["A. 5", "B. 6", "C. 7", "D. 8", "E. 9"], correct: 2 },
-            { id: 5, text: "Luas persegi dengan sisi 5 cm adalah ....", options: ["A. 10 cm²", "B. 15 cm²", "C. 20 cm²", "D. 25 cm²", "E. 30 cm²"], correct: 3 }
-        ];
+        let activeManagingExamId = null; // ID ujian yang sedang dikelola soalnya oleh guru
 
         let currentQuestionIndex = 0;
         let studentAnswers = {}; 
@@ -406,9 +507,8 @@
             }
         }
 
-        // --- MODAL LUPA PASSWORD ---
-        function showForgotPasswordModal(role) {
-            forgotRoleType = role;
+        // --- LUPA PASSWORD (Hanya untuk Siswa, Akun Guru Dilindungi Total) ---
+        function showForgotPasswordModal() {
             document.getElementById('forgot-username').value = '';
             document.getElementById('forgot-modal').classList.remove('hidden-view');
         }
@@ -420,13 +520,21 @@
         function handleForgotPassword(e) {
             e.preventDefault();
             const idInput = document.getElementById('forgot-username').value.trim();
-            const found = usersDB.find(u => u.nis === idInput);
+            
+            // Proteksi akun guru (NIP 12491 atau role guru) agar tidak bisa dipulihkan/dibocorkan via lupa password
+            if (idInput === "12491") {
+                alert("Akses Ditolak! Akun Guru/Admin dilindungi sistem dan tidak dapat dipulihkan melalui fitur Lupa Password.");
+                closeForgotPasswordModal();
+                return;
+            }
+
+            const found = usersDB.find(u => u.nis === idInput && u.role === 'siswa');
 
             if (found) {
-                alert(`Data ditemukan!\nNama: ${found.nama}\nPassword Anda adalah: ${found.password}`);
+                alert(`Data Siswa ditemukan!\nNama: ${found.nama}\nPassword Anda adalah: ${found.password}`);
                 closeForgotPasswordModal();
             } else {
-                alert("Username / NIS / NIP tidak ditemukan di sistem!");
+                alert("NIS Siswa tidak ditemukan di sistem!");
             }
         }
 
@@ -444,11 +552,8 @@
 
         function handleUpdateProfile(e) {
             e.preventDefault();
-            const newJenjang = document.getElementById('edit-jenjang').value;
-            const newKelas = document.getElementById('edit-kelas').value.trim();
-
-            currentUser.jenjang = newJenjang;
-            currentUser.kelas = newKelas;
+            currentUser.jenjang = document.getElementById('edit-jenjang').value;
+            currentUser.kelas = document.getElementById('edit-kelas').value.trim();
 
             alert("Profil jenjang dan kelas berhasil diperbarui!");
             closeEditProfileModal();
@@ -458,12 +563,16 @@
         // --- LOGIC REGISTER ---
         function handleRegister(e) {
             e.preventDefault();
-            
             const inputNama = document.getElementById('reg-nama').value;
             const inputNis = document.getElementById('reg-nis').value.trim();
             const inputJenjang = document.getElementById('reg-jenjang').value;
             const inputKelas = document.getElementById('reg-kelas').value.trim();
             const inputPassword = document.getElementById('reg-password').value;
+
+            if (inputNis === "12491") {
+                alert("Pendaftaran Gagal! NIP tersebut adalah akun resmi Guru/Admin.");
+                return;
+            }
 
             const isNisExist = usersDB.find(user => user.nis === inputNis);
             if (isNisExist) {
@@ -482,7 +591,6 @@
 
             alert(`Akun berhasil dibuat!\nSilakan login menggunakan NIS: ${inputNis}`);
             e.target.reset(); 
-            
             document.getElementById('login-nis').value = inputNis;
             switchView('view-login'); 
             switchLoginTab('siswa'); 
@@ -530,14 +638,17 @@
             const container = document.getElementById('exam-list-container');
             container.innerHTML = '';
 
+            // Filter ujian berdasarkan jenjang dan kelas yang cocok
             const matchedExams = examsDB.filter(exam => {
-                return exam.targetKelas.some(k => k.toLowerCase() === currentUser.kelas.toLowerCase());
+                const matchJenjang = exam.jenjang.toLowerCase() === currentUser.jenjang.toLowerCase();
+                const matchKelas = exam.kelas.toLowerCase() === currentUser.kelas.toLowerCase();
+                return matchJenjang && matchKelas;
             });
 
             if (matchedExams.length === 0) {
                 container.innerHTML = `
                     <div class="bg-white p-6 rounded-lg shadow text-center text-gray-500">
-                        Tidak ada ujian aktif yang tersedia untuk kelas Anda (${currentUser.kelas}). Silakan edit kelas jika salah input.
+                        Tidak ada ujian aktif untuk Jenjang <strong>${currentUser.jenjang}</strong> Kelas <strong>${currentUser.kelas}</strong>. Pastikan pengaturan profil Anda sudah benar.
                     </div>
                 `;
                 return;
@@ -548,10 +659,10 @@
                     <div class="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center border-l-4 border-blue-500">
                         <div>
                             <h4 class="text-lg font-bold text-gray-800">${exam.title}</h4>
-                            <p class="text-gray-600 text-sm mt-1">Kelas: ${currentUser.kelas} | ${exam.totalSoal} Soal | Durasi ${exam.duration}</p>
+                            <p class="text-gray-600 text-sm mt-1">${exam.jenjang} - Kelas ${exam.kelas} | ${exam.questions.length} Soal | Durasi ${exam.duration}</p>
                             <span class="inline-block mt-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full font-semibold">Status: Belum dikerjakan</span>
                         </div>
-                        <button onclick="prepareExam('${exam.title}')" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition">MULAI UJIAN</button>
+                        <button onclick="prepareExam(${exam.id})" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold transition">MULAI UJIAN</button>
                     </div>
                 `;
                 container.innerHTML += card;
@@ -564,56 +675,234 @@
             renderTeacherExamList();
         }
 
+        // Tambah Ujian Baru dengan target Jenjang dan Kelas terpisah
         function handleAddExam(e) {
             e.preventDefault();
             const title = document.getElementById('new-exam-title').value.trim();
-            const kelasInput = document.getElementById('new-exam-kelas').value.trim();
+            const jenjang = document.getElementById('new-exam-jenjang').value;
+            const kelas = document.getElementById('new-exam-kelas').value.trim();
             const duration = document.getElementById('new-exam-durasi').value.trim();
-            const totalSoal = parseInt(document.getElementById('new-exam-soal').value) || 5;
 
-            examsDB.push({
-                id: examsDB.length + 1,
+            const newExam = {
+                id: Date.now(),
                 title: title,
-                targetKelas: [kelasInput],
+                jenjang: jenjang,
+                kelas: kelas,
                 duration: duration,
-                totalSoal: totalSoal
-            });
+                questions: []
+            };
 
-            alert("Ujian baru berhasil ditambahkan!");
+            examsDB.push(newExam);
+            alert("Ujian berhasil dibuat! Silakan tambahkan soal matematika pada ujian tersebut.");
             e.target.reset();
             renderTeacherExamList();
+
+            // Langsung buka modal kelola soal untuk ujian baru ini
+            openManageSoalModal(newExam.id);
         }
 
         function renderTeacherExamList() {
             const listContainer = document.getElementById('guru-exam-list');
             listContainer.innerHTML = '';
 
-            examsDB.forEach((exam, index) => {
+            if (examsDB.length === 0) {
+                listContainer.innerHTML = `<div class="bg-white p-6 rounded-lg shadow text-center text-gray-500">Belum ada ujian yang dibuat.</div>`;
+                return;
+            }
+
+            examsDB.forEach((exam) => {
                 const item = `
-                    <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center border-l-4 border-green-500">
+                    <div class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-l-4 border-green-500">
                         <div>
-                            <h4 class="font-bold text-gray-800">${exam.title}</h4>
-                            <p class="text-sm text-gray-600">Target Kelas: ${exam.targetKelas.join(', ')} | ${exam.totalSoal} Soal | Durasi: ${exam.duration}</p>
+                            <h4 class="font-bold text-gray-800 text-lg">${exam.title}</h4>
+                            <p class="text-sm text-gray-600">Jenjang: <span class="font-semibold">${exam.jenjang}</span> | Kelas: <span class="font-semibold">${exam.kelas}</span> | Jumlah Soal: <span class="font-bold text-green-600">${exam.questions.length}</span> | Durasi: ${exam.duration}</p>
                         </div>
-                        <button onclick="deleteExam(${index})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-sm font-bold transition">Hapus</button>
+                        <div class="flex gap-2">
+                            <button onclick="openManageSoalModal(${exam.id})" class="bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 text-sm font-bold transition">✏️ Kelola & Review Soal</button>
+                            <button onclick="deleteExam(${exam.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-sm font-bold transition">🗑️ Hapus Ujian</button>
+                        </div>
                     </div>
                 `;
                 listContainer.innerHTML += item;
             });
         }
 
-        function deleteExam(index) {
-            if (confirm("Apakah Anda yakin ingin menghapus ujian ini?")) {
-                examsDB.splice(index, 1);
+        function deleteExam(examId) {
+            if (confirm("Apakah Anda yakin ingin menghapus ujian ini beserta seluruh soalnya?")) {
+                examsDB = examsDB.filter(ex => ex.id !== examId);
                 renderTeacherExamList();
             }
         }
 
-        function prepareExam(examTitle) {
-            activeExam = examTitle;
-            document.getElementById('pre-exam-title').innerText = examTitle.toUpperCase();
-            document.getElementById('pre-exam-subject').innerText = examTitle;
-            document.getElementById('exam-header-title').innerText = examTitle.toUpperCase();
+        // --- FITUR KELOLA SOAL (Tambah, Edit, Review, Hapus) ---
+        function openManageSoalModal(examId) {
+            activeManagingExamId = examId;
+            const exam = examsDB.find(ex => ex.id === examId);
+            if (!exam) return;
+
+            document.getElementById('manage-exam-title').innerText = `Kelola Soal: ${exam.title} (${exam.jenjang} - ${exam.kelas})`;
+            resetQuestionForm();
+            renderReviewQuestions();
+            document.getElementById('modal-manage-soal').classList.remove('hidden-view');
+        }
+
+        function closeManageSoalModal() {
+            document.getElementById('modal-manage-soal').classList.add('hidden-view');
+            renderTeacherExamList();
+        }
+
+        // Bantuan masukkan simbol matematika dengan cepat ke textarea soal
+        function insertMathSymbol(symbol) {
+            const textarea = document.getElementById('math-question-text');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            textarea.value = text.substring(0, start) + symbol + text.substring(end);
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = start + symbol.length;
+        }
+
+        // Simpan Soal (Tambah baru atau Update saat Edit)
+        function handleSaveQuestion(e) {
+            e.preventDefault();
+            const exam = examsDB.find(ex => ex.id === activeManagingExamId);
+            if (!exam) return;
+
+            const editIndex = parseInt(document.getElementById('edit-question-index').value);
+            const questionText = document.getElementById('math-question-text').value.trim();
+            const optA = document.getElementById('opt-a').value.trim();
+            const optB = document.getElementById('opt-b').value.trim();
+            const optC = document.getElementById('opt-c').value.trim();
+            const optD = document.getElementById('opt-d').value.trim();
+            const optE = document.getElementById('opt-e').value.trim();
+            const correctIndex = parseInt(document.getElementById('correct-answer').value);
+
+            const questionData = {
+                id: editIndex === -1 ? Date.now() : exam.questions[editIndex].id,
+                text: questionText,
+                options: [`A. ${optA}`, `B. ${optB}`, `C. ${optC}`, `D. ${optD}`, `E. ${optE}`],
+                correct: correctIndex
+            };
+
+            if (editIndex === -1) {
+                // Tambah soal baru
+                exam.questions.push(questionData);
+                alert("Soal matematika berhasil ditambahkan!");
+            } else {
+                // Update soal edit
+                exam.questions[editIndex] = questionData;
+                alert("Soal matematika berhasil diperbarui!");
+                resetQuestionForm();
+            }
+
+            document.getElementById('math-question-text').value = '';
+            document.getElementById('opt-a').value = '';
+            document.getElementById('opt-b').value = '';
+            document.getElementById('opt-c').value = '';
+            document.getElementById('opt-d').value = '';
+            document.getElementById('opt-e').value = '';
+            document.getElementById('correct-answer').value = '0';
+
+            renderReviewQuestions();
+        }
+
+        // Render Review / Daftar Soal
+        function renderReviewQuestions() {
+            const exam = examsDB.find(ex => ex.id === activeManagingExamId);
+            if (!exam) return;
+
+            document.getElementById('question-count-badge').innerText = exam.questions.length;
+            const container = document.getElementById('review-questions-container');
+            container.innerHTML = '';
+
+            if (exam.questions.length === 0) {
+                container.innerHTML = `<p class="text-sm text-gray-500 italic text-center py-4">Belum ada soal pada ujian ini. Silakan buat soal menggunakan form di atas.</p>`;
+                return;
+            }
+
+            exam.questions.forEach((q, idx) => {
+                const card = `
+                    <div class="bg-white p-4 rounded border shadow-sm flex flex-col gap-2">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-sm text-green-700">Soal No. ${idx + 1}</span>
+                            <div class="flex gap-2">
+                                <button onclick="editQuestion(${idx})" class="bg-yellow-500 text-white px-2.5 py-1 rounded text-xs font-bold hover:bg-yellow-600 transition">✏️ Edit</button>
+                                <button onclick="deleteQuestion(${idx})" class="bg-red-500 text-white px-2.5 py-1 rounded text-xs font-bold hover:bg-red-600 transition">🗑️ Hapus</button>
+                            </div>
+                        </div>
+                        <p class="font-mono text-sm text-gray-800 whitespace-pre-line">${q.text}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs bg-gray-50 p-2 rounded font-mono">
+                            ${q.options.map((opt, oIdx) => `<div class="${oIdx === q.correct ? 'font-bold text-green-600 bg-green-50 p-1 rounded' : 'text-gray-600 p-1'}">${opt} ${oIdx === q.correct ? '✓ (Kunci)' : ''}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Edit Soal (Muat data ke form)
+        function editQuestion(index) {
+            const exam = examsDB.find(ex => ex.id === activeManagingExamId);
+            if (!exam) return;
+            const q = exam.questions[index];
+
+            document.getElementById('edit-question-index').value = index;
+            document.getElementById('math-question-text').value = q.text;
+            
+            // Bersihkan awalan "A. ", "B. ", dll pada opsi saat dimasukkan ke input
+            document.getElementById('opt-a').value = q.options[0].replace(/^[A-E]\.\s*/, '');
+            document.getElementById('opt-b').value = q.options[1].replace(/^[A-E]\.\s*/, '');
+            document.getElementById('opt-c').value = q.options[2].replace(/^[A-E]\.\s*/, '');
+            document.getElementById('opt-d').value = q.options[3].replace(/^[A-E]\.\s*/, '');
+            document.getElementById('opt-e').value = q.options[4].replace(/^[A-E]\.\s*/, '');
+            document.getElementById('correct-answer').value = q.correct;
+
+            document.getElementById('form-soal-title').innerText = `✏️ Edit Soal No. ${index + 1}`;
+            document.getElementById('btn-save-question').innerText = "Perbarui Soal";
+            document.getElementById('btn-cancel-edit').classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Hapus Soal
+        function deleteQuestion(index) {
+            const exam = examsDB.find(ex => ex.id === activeManagingExamId);
+            if (!exam) return;
+
+            if (confirm(`Apakah Anda yakin ingin menghapus soal nomor ${index + 1}?`)) {
+                exam.questions.splice(index, 1);
+                renderReviewQuestions();
+                resetQuestionForm();
+            }
+        }
+
+        function resetQuestionForm() {
+            document.getElementById('edit-question-index').value = "-1";
+            document.getElementById('math-question-text').value = '';
+            document.getElementById('opt-a').value = '';
+            document.getElementById('opt-b').value = '';
+            document.getElementById('opt-c').value = '';
+            document.getElementById('opt-d').value = '';
+            document.getElementById('opt-e').value = '';
+            document.getElementById('correct-answer').value = '0';
+            document.getElementById('form-soal-title').innerText = "➕ Tambah Soal Matematika Baru";
+            document.getElementById('btn-save-question').innerText = "Simpan Soal";
+            document.getElementById('btn-cancel-edit').classList.add('hidden');
+        }
+
+        // --- LOGIC PERSIAPAN UJIAN SISWA ---
+        function prepareExam(examId) {
+            const exam = examsDB.find(ex => ex.id === examId);
+            if (!exam || exam.questions.length === 0) {
+                alert("Maaf, ujian ini belum memiliki soal.");
+                return;
+            }
+            activeExam = exam;
+            document.getElementById('pre-exam-title').innerText = exam.title.toUpperCase();
+            document.getElementById('pre-exam-subject').innerText = exam.title;
+            document.getElementById('pre-exam-total-soal').innerText = exam.questions.length;
+            document.getElementById('pre-exam-duration').innerText = exam.duration;
+            document.getElementById('exam-header-title').innerText = exam.title.toUpperCase();
             switchView('view-pre-exam');
         }
 
@@ -635,7 +924,7 @@
         function generateNumberGrid() {
             const grid = document.getElementById('number-grid');
             grid.innerHTML = '';
-            questions.forEach((q, index) => {
+            activeExam.questions.forEach((q, index) => {
                 const btn = document.createElement('button');
                 btn.id = `nav-btn-${index}`;
                 btn.className = 'nav-btn nav-unanswered w-full aspect-square flex items-center justify-center font-bold rounded cursor-pointer';
@@ -648,7 +937,7 @@
 
         function loadQuestion(index) {
             currentQuestionIndex = index;
-            const q = questions[index];
+            const q = activeExam.questions[index];
             
             document.getElementById('current-question-num').innerText = index + 1;
             document.getElementById('question-text').innerText = q.text;
@@ -664,7 +953,7 @@
                             <div class="w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${isChecked ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}">
                                 ${isChecked ? '<div class="w-2 h-2 bg-white rounded-full"></div>' : ''}
                             </div>
-                            <span class="text-gray-800 font-medium">${opt}</span>
+                            <span class="text-gray-800 font-medium font-mono">${opt}</span>
                         </div>
                     </label>
                 `;
@@ -673,14 +962,14 @@
 
             document.getElementById('mark-doubt').checked = markedDoubt[index] === true;
             document.getElementById('btn-prev').style.visibility = index === 0 ? 'hidden' : 'visible';
-            document.getElementById('btn-next').innerText = index === questions.length - 1 ? 'Selesai' : 'Selanjutnya →';
+            document.getElementById('btn-next').innerText = index === activeExam.questions.length - 1 ? 'Selesai' : 'Selanjutnya →';
 
             updateGridColors();
         }
 
         function prevQuestion() { if(currentQuestionIndex > 0) loadQuestion(currentQuestionIndex - 1); }
         function nextQuestion() { 
-            if(currentQuestionIndex < questions.length - 1) loadQuestion(currentQuestionIndex + 1); 
+            if(currentQuestionIndex < activeExam.questions.length - 1) loadQuestion(currentQuestionIndex + 1); 
             else showSubmitModal();
         }
 
@@ -695,8 +984,9 @@
         }
 
         function updateGridColors() {
-            for(let i = 0; i < questions.length; i++) {
+            for(let i = 0; i < activeExam.questions.length; i++) {
                 const btn = document.getElementById(`nav-btn-${i}`);
+                if (!btn) continue;
                 btn.className = 'nav-btn w-full aspect-square flex items-center justify-center font-bold rounded cursor-pointer ';
                 
                 if (markedDoubt[i]) {
@@ -735,8 +1025,9 @@
         }
 
         function showSubmitModal() {
+            const total = activeExam.questions.length;
             const answered = Object.keys(studentAnswers).length;
-            const unanswered = questions.length - answered;
+            const unanswered = total - answered;
             
             document.getElementById('count-answered').innerText = `${answered} soal`;
             document.getElementById('count-unanswered').innerText = `${unanswered} soal`;
@@ -752,15 +1043,15 @@
             closeSubmitModal();
             
             let correctCount = 0;
-            questions.forEach((q, i) => {
+            activeExam.questions.forEach((q, i) => {
                 if(studentAnswers[i] === q.correct) correctCount++;
             });
-            const score = (correctCount / questions.length) * 100;
+            const score = (correctCount / activeExam.questions.length) * 100;
             const answered = Object.keys(studentAnswers).length;
 
-            document.getElementById('res-total').innerText = questions.length;
+            document.getElementById('res-total').innerText = activeExam.questions.length;
             document.getElementById('res-answered').innerText = answered;
-            document.getElementById('res-unanswered').innerText = questions.length - answered;
+            document.getElementById('res-unanswered').innerText = activeExam.questions.length - answered;
             document.getElementById('res-score').innerText = Math.round(score);
 
             switchView('view-result');
