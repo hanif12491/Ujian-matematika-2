@@ -17,7 +17,7 @@
         table.custom-table { border-collapse: collapse; width: 100%; margin-top: 10px; margin-bottom: 10px; }
         table.custom-table th, table.custom-table td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
         table.custom-table th { background-color: #f1f5f9; }
-        /* Proteksi Anti Screenshot & Seleksi (Req 1) */
+        /* Proteksi Anti Screenshot & Seleksi */
         .no-select {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -100,7 +100,7 @@
                     <input type="text" id="reg-nis" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan NIS Anda..." required>
                 </div>
                 
-                <!-- Nama Sekolah (Opsional - Req 3 dari prompt sebelumnya) -->
+                <!-- Nama Sekolah (Opsional) -->
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2">Nama Sekolah <span class="text-xs font-normal text-gray-500">(Opsional)</span></label>
                     <input type="text" id="reg-sekolah" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: SMA Negeri 1 Jakarta...">
@@ -414,7 +414,7 @@
         </div>
     </div>
 
-    <!-- MODAL LIHAT HASIL UJIAN (Dengan Fitur Buka Kunci Siswa - Req 4) -->
+    <!-- MODAL LIHAT HASIL UJIAN (Dengan Fitur Buka Kunci Siswa) -->
     <div id="modal-exam-results" class="hidden-view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -638,9 +638,9 @@
         let tempQuestionTable = null;
         let activeResultExamId = null;
         let activeTableCell = null;
-        let violationCount = 0; // Penghitung pelanggaran aturan ujian (Req 3)
+        let violationCount = 0;
 
-        // --- SISTEM ALARM & GETAR PELANGGARAN (Req 3) ---
+        // --- SISTEM ALARM & GETAR PELANGGARAN ---
         function triggerViolationAlarm() {
             violationCount++;
             document.getElementById('violation-count').innerText = violationCount;
@@ -661,7 +661,7 @@
                 
                 gainNode.gain.value = 0.3; // Volume tepat 30%
                 oscillator.type = 'sine';
-                oscillator.frequency.value = 750; // Frekuensi alarm
+                oscillator.frequency.value = 750;
                 
                 oscillator.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
@@ -676,7 +676,7 @@
             alert(`⚠️ PERINGATAN PELANGGARAN (${violationCount})!\nAnda terdeteksi keluar dari halaman ujian, mencoba membuka tab baru, atau melakukan screenshot. Aturan ujian melarang tindakan ini!`);
         }
 
-        // Deteksi pindah tab / keluar aplikasi / blur (Req 2 & 3)
+        // Deteksi pindah tab / keluar aplikasi / blur
         document.addEventListener('visibilitychange', function() {
             if (document.hidden && activeExam && !document.getElementById('view-exam').classList.contains('hidden-view')) {
                 triggerViolationAlarm();
@@ -689,7 +689,7 @@
             }
         });
 
-        // Proteksi tambahan anti screenshot shortcut key (PrntScrn, Cmd+Shift+S, dll)
+        // Proteksi tambahan anti screenshot shortcut key
         document.addEventListener('keydown', function(e) {
             if (activeExam && !document.getElementById('view-exam').classList.contains('hidden-view')) {
                 if (e.key === 'PrintScreen' || (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) || (e.metaKey && e.shiftKey)) {
@@ -867,7 +867,6 @@
             switchLoginTab('siswa'); 
         }
 
-        // --- HANDLE LOGIN DENGAN / TANPA TOKEN ---
         function handleLogin(e, role) {
             e.preventDefault();
             if (role === 'siswa') {
@@ -921,7 +920,6 @@
             }
         }
 
-        // --- DASHBOARD SISWA ---
         function loadStudentDashboard() {
             document.getElementById('dash-nama').innerText = currentUser.nama;
             document.getElementById('dash-info').innerText = `NIS: ${currentUser.nis} | Jenjang: ${currentUser.jenjang} | Kelas: Kelas ${currentUser.kelas}`;
@@ -972,7 +970,6 @@
             });
         }
 
-        // --- DASHBOARD GURU & FILTER DROPDOWN ---
         function loadTeacherDashboard() {
             document.getElementById('guru-nama').innerText = currentUser.nama;
             updateTeacherFilterKelasDropdown();
@@ -1053,7 +1050,7 @@
             }
         }
 
-        // --- LIHAT HASIL & BUKA KUNCI SISWA (Req 4) ---
+        // --- LIHAT HASIL & FITUR BUKA KUNCI SISWA (Req 4) ---
         function openExamResults(examId) {
             activeResultExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -1140,7 +1137,6 @@
             }
         }
 
-        // --- KELOLA SOAL ---
         function openManageSoalModal(examId) {
             activeManagingExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
@@ -1304,7 +1300,6 @@
             textarea.selectionStart = textarea.selectionEnd = start + symbol.length;
         }
 
-        // --- TABEL VISUAL BUILDER & EDITOR DENGAN FITUR MATEMATIKA ---
         function setActiveTableCell(el) {
             activeTableCell = el;
         }
@@ -1643,7 +1638,6 @@
             document.getElementById('btn-cancel-edit').classList.add('hidden');
         }
 
-        // --- UJIAN SISWA & LANJUTKAN UJIAN SETELAH KELUAR ---
         function prepareExam(examId) {
             const exam = examsDB.find(ex => ex.id === examId);
             if (!exam || exam.questions.length === 0) {
