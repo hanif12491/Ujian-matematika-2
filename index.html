@@ -42,7 +42,6 @@
                     <label class="block text-gray-700 font-semibold mb-2">Password</label>
                     <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan Password..." required>
                 </div>
-                <!-- Fitur Lupa Password Siswa -->
                 <div class="text-right mb-6">
                     <button type="button" onclick="showForgotPasswordModal('siswa')" class="text-xs text-blue-600 hover:underline font-semibold">Lupa Password?</button>
                 </div>
@@ -64,7 +63,6 @@
                     <label class="block text-gray-700 font-semibold mb-2">Password</label>
                     <input type="password" id="login-pass-guru" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan Password..." required value="Mashari123">
                 </div>
-                <!-- Fitur Lupa Password Guru -->
                 <div class="text-right mb-6">
                     <button type="button" onclick="showForgotPasswordModal('guru')" class="text-xs text-green-600 hover:underline font-semibold">Lupa Password?</button>
                 </div>
@@ -128,20 +126,96 @@
             <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded text-sm font-bold hover:bg-red-600">Logout</button>
         </nav>
         <div class="container mx-auto p-6 max-w-4xl">
-            <!-- Profil Singkat Dinamis -->
-            <div class="bg-white p-6 rounded-lg shadow mb-6 flex items-center gap-6">
-                <div id="dash-avatar" class="w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-600 font-bold text-3xl uppercase shrink-0">A</div>
-                <div>
-                    <h2 id="dash-nama" class="text-2xl font-bold text-gray-800">Nama Siswa</h2>
-                    <p id="dash-info" class="text-gray-600 font-medium mt-1">NIS: - | Jenjang: - | Kelas: -</p>
+            <!-- Profil Singkat Dinamis dengan Tombol Edit Jenjang/Kelas -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex items-center gap-6">
+                    <div id="dash-avatar" class="w-20 h-20 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-600 font-bold text-3xl uppercase shrink-0">A</div>
+                    <div>
+                        <h2 id="dash-nama" class="text-2xl font-bold text-gray-800">Nama Siswa</h2>
+                        <p id="dash-info" class="text-gray-600 font-medium mt-1">NIS: - | Jenjang: - | Kelas: -</p>
+                    </div>
                 </div>
+                <button onclick="openEditProfileModal()" class="bg-yellow-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600 transition text-sm">
+                    ✏️ Edit Jenjang & Kelas
+                </button>
             </div>
 
             <h3 class="text-xl font-bold mb-4">Daftar Ujian Sesuai Kelas Anda</h3>
-            <!-- Kontainer Daftar Ujian Berdasarkan Kelas -->
-            <div id="exam-list-container" class="space-y-4">
-                <!-- Data ujian akan di-generate otomatis oleh JS berdasarkan kelas profil siswa -->
+            <div id="exam-list-container" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT PROFIL SISWA (JENJANG & KELAS) -->
+    <div id="edit-profile-modal" class="hidden-view fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-t-8 border-yellow-500">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Edit Jenjang & Kelas</h2>
+            <p class="text-sm text-gray-600 mb-4">Perbarui data jenjang atau kelas jika salah saat registrasi.</p>
+            <form onsubmit="handleUpdateProfile(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Jenjang Pendidikan</label>
+                    <select id="edit-jenjang" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white" required>
+                        <option value="SD / MI">SD / MI</option>
+                        <option value="SMP / MTs">SMP / MTs</option>
+                        <option value="SMA / SMK">SMA / SMK</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Kelas</label>
+                    <input type="text" id="edit-kelas" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Contoh: 6, IX, XI TKJ..." required>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeEditProfileModal()" class="bg-gray-200 px-4 py-2 rounded font-bold hover:bg-gray-300 text-gray-700 w-1/2 transition">BATAL</button>
+                    <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded font-bold hover:bg-yellow-600 w-1/2 transition">SIMPAN</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2B. DASHBOARD GURU / ADMIN -->
+    <div id="view-dashboard-guru" class="hidden-view min-h-screen">
+        <nav class="bg-green-600 text-white p-4 shadow-md flex justify-between items-center">
+            <h1 class="text-xl font-bold">Dashboard Guru / Admin</h1>
+            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded text-sm font-bold hover:bg-red-600">Logout</button>
+        </nav>
+        <div class="container mx-auto p-6 max-w-4xl">
+            <!-- Profil Singkat Guru -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6 flex items-center gap-6">
+                <div class="w-20 h-20 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center text-green-600 font-bold text-3xl uppercase shrink-0">G</div>
+                <div>
+                    <h2 id="guru-nama" class="text-2xl font-bold text-gray-800">Admin / Guru Utama</h2>
+                    <p class="text-gray-600 font-medium mt-1">NIP: 12491 | Hak Akses: Penuh (Guru & Admin)</p>
+                </div>
             </div>
+
+            <!-- Form Tambah Ujian Baru -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 pb-2 border-b">Tambah Ujian Baru</h3>
+                <form onsubmit="handleAddExam(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Nama/Judul Ujian</label>
+                        <input type="text" id="new-exam-title" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" placeholder="Contoh: PAS Fisika..." required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Target Kelas</label>
+                        <input type="text" id="new-exam-kelas" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" placeholder="Contoh: XI TKJ atau 6..." required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Durasi</label>
+                        <input type="text" id="new-exam-durasi" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" value="90 Menit" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">Jumlah Soal</label>
+                        <input type="number" id="new-exam-soal" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-green-500" value="5" required>
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded-lg hover:bg-green-700 transition text-sm">TAMBAH UJIAN</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Daftar Ujian Aktif Saat Ini -->
+            <h3 class="text-xl font-bold mb-4">Kelola Daftar Ujian</h3>
+            <div id="guru-exam-list" class="space-y-4"></div>
         </div>
     </div>
 
@@ -278,12 +352,10 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- 1. SIMULASI DATABASE ---
-        // Akun default siswa dihapus, hanya menyisakan database kosong untuk pendaftaran baru & Guru Admin default
         let usersDB = [
             { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123" }
         ];
 
-        // Daftar Ujian Tersedia berdasarkan target kelas
         let examsDB = [
             { id: 1, title: "PAS Matematika", targetKelas: ["XI TKJ", "11", "XI"], duration: "90 Menit", totalSoal: 5 },
             { id: 2, title: "PAS Bahasa Indonesia", targetKelas: ["XI TKJ", "11", "XI"], duration: "90 Menit", totalSoal: 5 },
@@ -295,7 +367,6 @@
         let activeExam = null;
         let forgotRoleType = 'siswa';
 
-        // --- DATA MOCKUP SOAL ---
         const questions = [
             { id: 1, text: "Nilai dari 2x + 3 = 11 adalah ....", options: ["A. 2", "B. 3", "C. 4", "D. 5", "E. 6"], correct: 2 },
             { id: 2, text: "Bentuk sederhana dari 5x - 3x + 2 adalah ....", options: ["A. 2x + 2", "B. 8x + 2", "C. 2x - 2", "D. 2", "E. 8x"], correct: 0 },
@@ -359,12 +430,37 @@
             }
         }
 
+        // --- MODAL EDIT PROFIL SISWA ---
+        function openEditProfileModal() {
+            if (!currentUser) return;
+            document.getElementById('edit-jenjang').value = currentUser.jenjang;
+            document.getElementById('edit-kelas').value = currentUser.kelas;
+            document.getElementById('edit-profile-modal').classList.remove('hidden-view');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('edit-profile-modal').classList.add('hidden-view');
+        }
+
+        function handleUpdateProfile(e) {
+            e.preventDefault();
+            const newJenjang = document.getElementById('edit-jenjang').value;
+            const newKelas = document.getElementById('edit-kelas').value.trim();
+
+            currentUser.jenjang = newJenjang;
+            currentUser.kelas = newKelas;
+
+            alert("Profil jenjang dan kelas berhasil diperbarui!");
+            closeEditProfileModal();
+            loadStudentDashboard();
+        }
+
         // --- LOGIC REGISTER ---
         function handleRegister(e) {
             e.preventDefault();
             
             const inputNama = document.getElementById('reg-nama').value;
-            const inputNis = document.getElementById('reg-nis').value;
+            const inputNis = document.getElementById('reg-nis').value.trim();
             const inputJenjang = document.getElementById('reg-jenjang').value;
             const inputKelas = document.getElementById('reg-kelas').value.trim();
             const inputPassword = document.getElementById('reg-password').value;
@@ -416,20 +512,21 @@
                 const userFound = usersDB.find(user => user.nis === inputNip && user.password === inputPass && user.role === 'guru');
 
                 if (userFound) {
-                    alert("Login Guru Berhasil! (Dashboard Guru / Admin mengarahkan ke panel kelola ujian)");
+                    currentUser = userFound;
+                    loadTeacherDashboard();
+                    switchView('view-dashboard-guru');
                 } else {
                     alert("Gagal Login: NIP atau Password Guru salah!");
                 }
             }
         }
 
-        // --- LOAD DASHBOARD & FILTER UJIAN SESUAI KELAS PROFIL ---
+        // --- LOAD DASHBOARD SISWA ---
         function loadStudentDashboard() {
             document.getElementById('dash-nama').innerText = currentUser.nama;
             document.getElementById('dash-info').innerText = `NIS: ${currentUser.nis} | Jenjang: ${currentUser.jenjang} | Kelas: ${currentUser.kelas}`;
             document.getElementById('dash-avatar').innerText = currentUser.nama.charAt(0).toUpperCase();
 
-            // Filter ujian yang sesuai dengan kelas siswa (case-insensitive atau partial match)
             const container = document.getElementById('exam-list-container');
             container.innerHTML = '';
 
@@ -440,7 +537,7 @@
             if (matchedExams.length === 0) {
                 container.innerHTML = `
                     <div class="bg-white p-6 rounded-lg shadow text-center text-gray-500">
-                        Tidak ada ujian aktif yang tersedia untuk kelas Anda (${currentUser.kelas}).
+                        Tidak ada ujian aktif yang tersedia untuk kelas Anda (${currentUser.kelas}). Silakan edit kelas jika salah input.
                     </div>
                 `;
                 return;
@@ -459,6 +556,57 @@
                 `;
                 container.innerHTML += card;
             });
+        }
+
+        // --- LOAD DASHBOARD GURU ---
+        function loadTeacherDashboard() {
+            document.getElementById('guru-nama').innerText = currentUser.nama;
+            renderTeacherExamList();
+        }
+
+        function handleAddExam(e) {
+            e.preventDefault();
+            const title = document.getElementById('new-exam-title').value.trim();
+            const kelasInput = document.getElementById('new-exam-kelas').value.trim();
+            const duration = document.getElementById('new-exam-durasi').value.trim();
+            const totalSoal = parseInt(document.getElementById('new-exam-soal').value) || 5;
+
+            examsDB.push({
+                id: examsDB.length + 1,
+                title: title,
+                targetKelas: [kelasInput],
+                duration: duration,
+                totalSoal: totalSoal
+            });
+
+            alert("Ujian baru berhasil ditambahkan!");
+            e.target.reset();
+            renderTeacherExamList();
+        }
+
+        function renderTeacherExamList() {
+            const listContainer = document.getElementById('guru-exam-list');
+            listContainer.innerHTML = '';
+
+            examsDB.forEach((exam, index) => {
+                const item = `
+                    <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center border-l-4 border-green-500">
+                        <div>
+                            <h4 class="font-bold text-gray-800">${exam.title}</h4>
+                            <p class="text-sm text-gray-600">Target Kelas: ${exam.targetKelas.join(', ')} | ${exam.totalSoal} Soal | Durasi: ${exam.duration}</p>
+                        </div>
+                        <button onclick="deleteExam(${index})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-sm font-bold transition">Hapus</button>
+                    </div>
+                `;
+                listContainer.innerHTML += item;
+            });
+        }
+
+        function deleteExam(index) {
+            if (confirm("Apakah Anda yakin ingin menghapus ujian ini?")) {
+                examsDB.splice(index, 1);
+                renderTeacherExamList();
+            }
         }
 
         function prepareExam(examTitle) {
