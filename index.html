@@ -575,10 +575,14 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        let usersDB = [
+        // --- DATABASE AKUN BERKELANJUTAN (Menggunakan localStorage) ---
+        let defaultUsersDB = [
             { nama: "Admin / Guru Utama", nis: "12491", role: "guru", password: "Mashari123", sekolah: "SMAN 1 Teladan" },
             { nama: "Ahmad Budi", nis: "1001", role: "siswa", jenjang: "SMA / SMK", kelas: "11", password: "password", sekolah: "SMKN 2 Jakarta" }
         ];
+
+        let savedUsersDB = localStorage.getItem('cbt_users_db');
+        let usersDB = savedUsersDB ? JSON.parse(savedUsersDB) : defaultUsersDB;
 
         let examResultsDB = [
             { examId: 1, nis: "1001", nama: "Ahmad Budi", nilai: 80, waktuSelesai: "15/08/2026, 10.30.00" }
@@ -827,6 +831,14 @@
             e.preventDefault();
             currentUser.jenjang = document.getElementById('edit-jenjang').value;
             currentUser.kelas = document.getElementById('edit-kelas').value;
+            
+            // Perbarui di database persistensi localStorage
+            const userIndex = usersDB.findIndex(u => u.nis === currentUser.nis);
+            if (userIndex !== -1) {
+                usersDB[userIndex] = currentUser;
+                localStorage.setItem('cbt_users_db', JSON.stringify(usersDB));
+            }
+
             alert("Profil berhasil diperbarui!");
             closeEditProfileModal();
             loadStudentDashboard();
@@ -860,7 +872,11 @@
                 password: inputPassword, 
                 role: "siswa" 
             });
-            alert(`Akun berhasil dibuat!\nSilakan login menggunakan NIS: ${inputNis}`);
+
+            // Simpan otomatis ke localStorage agar akun tersimpan secara permanen/berkelanjutan
+            localStorage.setItem('cbt_users_db', JSON.stringify(usersDB));
+
+            alert(`Akun berhasil dibuat dan tersimpan di database!\nSilakan login menggunakan NIS: ${inputNis}`);
             e.target.reset(); 
             document.getElementById('login-nis').value = inputNis;
             switchView('view-login'); 
@@ -1050,7 +1066,7 @@
             }
         }
 
-        // --- LIHAT HASIL & FITUR BUKA KUNCI SISWA (Req 4) ---
+        // --- LIHAT HASIL & FITUR BUKA KUNCI SISWA ---
         function openExamResults(examId) {
             activeResultExamId = examId;
             const exam = examsDB.find(ex => ex.id === examId);
